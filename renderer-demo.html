@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4EVER — Canvas Renderer Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    #preview { image-rendering: crisp-edges; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-8">
+
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-black text-gray-900 mb-1">🎞️ Canvas Renderer — Demo</h1>
+    <p class="text-gray-500 mb-8 text-sm">Chọn khung + tải ảnh → xuất PNG chất lượng cao</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- LEFT: Controls -->
+      <div class="space-y-5">
+
+        <!-- Frame picker -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Chọn khung ảnh</label>
+          <div id="framePicker" class="flex flex-wrap gap-2">
+            <!-- Buttons injected by JS -->
+          </div>
+        </div>
+
+        <!-- Photo upload -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Tải ảnh lên (tối đa 4)</label>
+          <input id="photoInput" type="file" accept="image/*" multiple
+            class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-pink-50 file:text-pink-600 hover:file:bg-pink-100 cursor-pointer">
+          <div id="photoThumbs" class="flex flex-wrap gap-2 mt-3"></div>
+        </div>
+
+        <!-- Render button -->
+        <button id="renderBtn"
+          class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl text-sm transition active:scale-95 shadow flex items-center justify-center gap-2">
+          ✨ Render ảnh
+        </button>
+
+        <!-- Download button (hidden until rendered) -->
+        <button id="downloadBtn" style="display:none"
+          class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-xl text-sm transition active:scale-95 shadow flex items-center justify-center gap-2">
+          ⬇️ Tải ảnh về (PNG)
+        </button>
+
+        <!-- Code example panel -->
+        <div class="bg-gray-900 text-green-300 rounded-2xl p-4 text-xs font-mono overflow-x-auto leading-relaxed">
+          <div class="text-gray-500 mb-2">// Cách dùng trong code</div>
+<pre id="codeExample">
+import { PhotoBoothRenderer, FRAME_CONFIGS } from './photobooth-renderer.js';
+
+const renderer = new PhotoBoothRenderer();
+
+// Render:
+const dataURL = await renderer.render(
+  photosArray,          // string[] — data URLs or src URLs
+  FRAME_CONFIGS.pink_ribbon,
+  { dateText: '2026.09.28' }
+);
+
+// Hiển thị preview:
+previewImg.src = dataURL;
+
+// Tải về:
+await renderer.download(
+  photosArray,
+  FRAME_CONFIGS.monchhichi
+);
+</pre>
+        </div>
+      </div>
+
+      <!-- RIGHT: Preview canvas output -->
+      <div class="flex flex-col items-center gap-4">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 w-full flex flex-col items-center">
+          <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Preview (High-DPI Export)</div>
+          <img id="preview"
+            class="rounded-xl shadow-lg max-w-[240px] w-full object-contain"
+            style="display:none"
+            alt="Rendered photo strip">
+          <div id="emptyState" class="w-48 h-96 rounded-xl bg-gray-50 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-300 text-sm gap-2">
+            <span class="text-4xl">🖼️</span>
+            <span>Chưa có ảnh</span>
+          </div>
+        </div>
+
+        <!-- Layer diagram -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 w-full text-xs text-gray-600">
+          <div class="font-bold text-gray-800 mb-2">📐 Thứ tự vẽ (Layers)</div>
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-white border border-gray-300 text-center text-[10px] leading-5 font-bold">1</span> <span>Nền màu trắng (<code>bgColor</code>)</span></div>
+            <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-pink-200 text-center text-[10px] leading-5 font-bold">2</span> <span>Ảnh chụp → object-fit <b>cover</b> vào slot</span></div>
+            <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-pink-400 text-white text-center text-[10px] leading-5 font-bold">3</span> <span>Khung trang trí (<code>multiply blend</code>)</span></div>
+            <div class="flex items-center gap-2"><span class="w-5 h-5 rounded bg-gray-800 text-white text-center text-[10px] leading-5 font-bold">4</span> <span>Logo + ngày tháng</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden canvas (renderer draws here) -->
+  <canvas id="rendererCanvas" class="hidden"></canvas>
+
+  <script type="module">
+    // ─── Import renderer ──────────────────────────────────────────
+    import { PhotoBoothRenderer, FRAME_CONFIGS } from './photobooth-renderer.js';
+
+    // ─── State ────────────────────────────────────────────────────
+    let selectedFrameKey = 'pink_ribbon';
+    let photosArray = [];
+    let lastDataURL = null;
+
+    // ─── DOM refs ─────────────────────────────────────────────────
+    const framePicker  = document.getElementById('framePicker');
+    const photoInput   = document.getElementById('photoInput');
+    const photoThumbs  = document.getElementById('photoThumbs');
+    const renderBtn    = document.getElementById('renderBtn');
+    const downloadBtn  = document.getElementById('downloadBtn');
+    const previewImg   = document.getElementById('preview');
+    const emptyState   = document.getElementById('emptyState');
+    const canvas       = document.getElementById('rendererCanvas');
+
+    // ─── Build frame picker buttons ───────────────────────────────
+    Object.values(FRAME_CONFIGS).forEach(cfg => {
+      const btn = document.createElement('button');
+      btn.textContent = cfg.label;
+      btn.dataset.key = cfg.id;
+      btn.className = `px-3 py-1.5 rounded-lg text-xs font-bold border-2 transition
+        ${cfg.id === selectedFrameKey
+          ? 'bg-gray-900 text-white border-gray-900'
+          : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`;
+
+      btn.onclick = () => {
+        selectedFrameKey = cfg.id;
+        document.querySelectorAll('#framePicker button').forEach(b => {
+          b.className = `px-3 py-1.5 rounded-lg text-xs font-bold border-2 transition
+            ${b.dataset.key === selectedFrameKey
+              ? 'bg-gray-900 text-white border-gray-900'
+              : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`;
+        });
+      };
+      framePicker.appendChild(btn);
+    });
+
+    // ─── Photo upload ─────────────────────────────────────────────
+    photoInput.addEventListener('change', async (e) => {
+      const files = [...e.target.files].slice(0, 4);
+      photosArray = [];
+      photoThumbs.innerHTML = '';
+
+      for (const file of files) {
+        const dataURL = await readFileAsDataURL(file);
+        photosArray.push(dataURL);
+
+        const thumb = document.createElement('img');
+        thumb.src = dataURL;
+        thumb.className = 'w-14 h-14 object-cover rounded-lg border-2 border-pink-200';
+        photoThumbs.appendChild(thumb);
+      }
+    });
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ─── Render ───────────────────────────────────────────────────
+    const renderer = new PhotoBoothRenderer(canvas);
+
+    renderBtn.addEventListener('click', async () => {
+      if (photosArray.length === 0) {
+        alert('Vui lòng tải ảnh lên trước!');
+        return;
+      }
+
+      renderBtn.textContent = '⏳ Đang render...';
+      renderBtn.disabled = true;
+
+      try {
+        const cfg = FRAME_CONFIGS[selectedFrameKey];
+        lastDataURL = await renderer.render(photosArray, cfg, {
+          dateText: new Date().toISOString().slice(0,10).replaceAll('-','.')
+        });
+
+        previewImg.src = lastDataURL;
+        previewImg.style.display = 'block';
+        emptyState.style.display = 'none';
+        downloadBtn.style.display = 'flex';
+
+      } catch (err) {
+        console.error(err);
+        alert('Lỗi khi render: ' + err.message);
+      } finally {
+        renderBtn.textContent = '✨ Render ảnh';
+        renderBtn.disabled = false;
+      }
+    });
+
+    // ─── Download ─────────────────────────────────────────────────
+    downloadBtn.addEventListener('click', () => {
+      if (!lastDataURL) return;
+      const link = document.createElement('a');
+      link.download = `4EVER-${selectedFrameKey}-${Date.now()}.png`;
+      link.href = lastDataURL;
+      link.click();
+    });
+  </script>
+</body>
+</html>

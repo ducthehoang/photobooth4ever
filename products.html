@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product &amp; Service Specifications | 4EVER Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Đồng bộ font chữ với index.htm và about.htm: Plus Jakarta Sans & Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blueprint: {
+                            base: '#f4f3ef',
+                            surface: '#ffffff',
+                            card: '#faf9f5',
+                            border: '#e2e0d8',
+                            darkBorder: '#1c1b18',
+                            line: '#b8b5ab',
+                            ink: '#181715',
+                            muted: '#5f5b52',
+                            accent: '#ff4d8d',
+                            accentMuted: '#fff0f5',
+                            cadBlue: '#2563eb'
+                        },
+                        brand: {
+                            pink: '#ff4d8d',
+                            pinkHover: '#e63977',
+                            lightPink: '#fff0f5',
+                            dark: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Playfair Display', 'serif'],
+                        mono: ['Space Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .blueprint-grid {
+            background-color: #f4f3ef;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+<body class="blueprint-grid text-blueprint-ink font-sans min-h-screen flex flex-col antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Global Header Navigation (Đồng bộ font & cấu trúc) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-blueprint-border shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Nav Links -->
+            <div class="flex items-center gap-8">
+                <a href="index.htm" class="flex items-center gap-2 group">
+                    <span class="text-3xl font-extrabold tracking-tighter text-black group-hover:text-brand-pink transition-colors font-sans">
+                        4EVER
+                    </span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-gray-700">
+                    <a href="index.htm" class="hover:text-brand-pink transition">Home</a>
+                    <a href="about.htm" class="hover:text-brand-pink transition">About Us</a>
+
+                    <!-- Product/Service Dropdown -->
+                    <div class="relative group cursor-pointer py-4">
+                        <a href="products.htm" class="flex items-center gap-1.5 text-brand-pink font-bold transition">
+                            <span>Product / Service</span>
+                            <span class="font-mono text-[10px] bg-brand-pink text-white px-1.5 py-0.5 rounded uppercase font-bold">Spec</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-brand-pink group-hover:rotate-180 transition-transform duration-200"></i>
+                        </a>
+
+                        <!-- Dropdown Menu Box -->
+                        <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                            <div class="w-64 bg-white rounded-xl shadow-xl border border-blueprint-border p-2 overflow-hidden backdrop-blur-md">
+                                <a href="#main-features" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg hover:bg-rose-50/60 text-gray-700 hover:text-brand-pink transition">
+                                    <div class="w-8 h-8 rounded-sm bg-gray-100 text-black flex items-center justify-center text-xs font-mono font-bold">01</div>
+                                    <div>
+                                        <div class="font-bold text-xs text-gray-900">Main features</div>
+                                        <div class="text-[11px] text-gray-500">Interactive photo-taking</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="#benefits" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg hover:bg-rose-50/60 text-gray-700 hover:text-brand-pink transition">
+                                    <div class="w-8 h-8 rounded-sm bg-gray-100 text-black flex items-center justify-center text-xs font-mono font-bold">02</div>
+                                    <div>
+                                        <div class="font-bold text-xs text-gray-900">Product/service benefits</div>
+                                        <div class="text-[11px] text-gray-500">Memorable experiences</div>
+                                    </div>
+                                </a>
+
+                                <a href="#target-customers" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg hover:bg-rose-50/60 text-gray-700 hover:text-brand-pink transition">
+                                    <div class="w-8 h-8 rounded-sm bg-gray-100 text-black flex items-center justify-center text-xs font-mono font-bold">03</div>
+                                    <div>
+                                        <div class="font-bold text-xs text-gray-900">Target customers</div>
+                                        <div class="text-[11px] text-gray-500">Gen Z &amp; Memory Keepers</div>
+                                    </div>
+                                </a>
+
+                                <a href="#unique-characteristics" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg hover:bg-rose-50/60 text-gray-700 hover:text-brand-pink transition">
+                                    <div class="w-8 h-8 rounded-sm bg-gray-100 text-black flex items-center justify-center text-xs font-mono font-bold">04</div>
+                                    <div>
+                                        <div class="font-bold text-xs text-gray-900">Unique characteristics</div>
+                                        <div class="text-[11px] text-gray-500">Fast processing &amp; digital filters</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="promotions.htm" class="hover:text-brand-pink transition">Promotions</a>
+                    <a href="places.htm" class="hover:text-brand-pink transition">Places of Distribution</a>
+                </nav>
+            </div>
+
+            <!-- Right: Actions & Profile -->
+            <div class="flex items-center gap-3">
+                <span class="font-mono text-xs text-blueprint-muted hidden sm:inline-block">DOC-ID: 4EVER-MOD-2026</span>
+                <a href="index.htm#photoboothApp" class="inline-flex items-center gap-2 bg-blueprint-ink hover:bg-black text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm">
+                    <i class="fa-solid fa-camera text-xs"></i>
+                    <span>Launch Studio</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- ============================================================ -->
+        <!-- PRESENTATION BOARD CONTAINER                                 -->
+        <!-- ============================================================ -->
+        <div class="bg-blueprint-surface border-2 border-blueprint-ink shadow-xl rounded-2xl overflow-hidden p-6 sm:p-10 lg:p-12 mb-12">
+
+            <!-- BOARD HEADER: Title & Technical Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b-2 border-blueprint-ink">
+                
+                <!-- Left Title Block -->
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div>
+                        <!-- Technical Pill Tag -->
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-blueprint-ink text-white rounded-full font-mono text-[11px] uppercase tracking-widest mb-4">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            System Design Specification v2.4
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-blueprint-ink leading-none">
+                            MODULAR
+                        </h1>
+                        <div class="flex items-center gap-3 mt-1.5">
+                            <span class="text-2xl sm:text-3xl font-light tracking-wide text-blueprint-muted font-cursive italic">
+                                furniture &amp; photobooth
+                            </span>
+                            <span class="w-8 h-8 rounded-full border border-blueprint-ink flex items-center justify-center font-mono font-bold text-xs">
+                                4S
+                            </span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-blueprint-muted mt-5 leading-relaxed font-sans max-w-md">
+                            Interactive photo-taking service and modular architecture combining studio-grade optical hardware, intelligent touch controls, instant physical printing, and seamless digital social distribution.
+                        </p>
+                    </div>
+
+                    <!-- Spatial Placement Spec Badges -->
+                    <div class="mt-8 pt-6 border-t border-blueprint-border grid grid-cols-3 gap-3 font-mono text-[11px]">
+                        <div class="bg-blueprint-card p-2.5 rounded border border-blueprint-border">
+                            <span class="text-blueprint-muted block text-[9px] uppercase">Service Type</span>
+                            <span class="font-bold text-blueprint-ink">Interactive</span>
+                        </div>
+                        <div class="bg-blueprint-card p-2.5 rounded border border-blueprint-border">
+                            <span class="text-blueprint-muted block text-[9px] uppercase">Experience</span>
+                            <span class="font-bold text-blueprint-ink">Fast &amp; Creative</span>
+                        </div>
+                        <div class="bg-blueprint-card p-2.5 rounded border border-blueprint-border">
+                            <span class="text-blueprint-muted block text-[9px] uppercase">Output</span>
+                            <span class="font-bold text-blueprint-ink">Physical &amp; QR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Image Showcase (Studio Hallway View) -->
+                <div class="lg:col-span-7">
+                    <div class="relative bg-blueprint-card border border-blueprint-ink rounded-xl overflow-hidden shadow-md group">
+                        <img src="images/specs_studio_hallway.jpg" alt="4EVER Modular Studio Hallway" class="w-full h-80 sm:h-96 object-cover object-center filter contrast-[1.02]">
+                        
+                        <!-- Overlay Spec Annotations -->
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm border border-blueprint-ink px-3 py-1.5 rounded text-[11px] font-mono shadow-xs">
+                            <span class="text-brand-pink font-bold">FIG 1.0</span> // Studio Environment Setup
+                        </div>
+
+                        <div class="absolute top-1/4 right-8 bg-black/85 text-white backdrop-blur-md px-3 py-1 rounded text-[10px] font-mono flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Booth Room 01: Active Session</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ============================================================ -->
+            <!-- 01. MAIN FEATURES                                            -->
+            <!-- ============================================================ -->
+            <section id="main-features" class="py-12 border-b-2 border-blueprint-ink scroll-mt-20">
+                <div class="mb-4">
+                    <div class="font-mono text-xs font-bold text-brand-pink uppercase tracking-widest">// Section 01</div>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase text-blueprint-ink tracking-tight mt-1">1. Main Features</h2>
+                </div>
+
+                <!-- Intro Statement (User Provided) -->
+                <div class="p-4 bg-rose-50/60 border-l-4 border-brand-pink rounded-r-xl mb-8">
+                    <p class="text-sm sm:text-base font-semibold text-gray-800 leading-relaxed">
+                        Photobooth is an interactive photo-taking service that allows customers to take photos quickly and creatively.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left: Studio Booth Photo with Dimension Indicators -->
+                    <div class="lg:col-span-5 bg-blueprint-card border border-blueprint-ink rounded-xl p-4 shadow-sm relative">
+                        <div class="relative overflow-hidden rounded-lg border border-blueprint-border">
+                            <img src="images/specs_classic_booth.jpg" alt="Classic Frame Booth Module" class="w-full h-80 sm:h-96 object-cover object-top">
+                            
+                            <div class="absolute top-3 left-3 bg-black/80 text-white font-mono text-[10px] px-2 py-0.5 rounded">
+                                W: 1400mm × D: 1200mm × H: 2200mm
+                            </div>
+                            <div class="absolute bottom-3 right-3 bg-white/95 text-blueprint-ink font-mono text-[10px] px-2 py-0.5 rounded border border-blueprint-ink shadow-xs">
+                                CLASSIC FRAME BOOTH
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-3 font-mono text-[11px]">
+                            <div class="p-2.5 bg-white rounded border border-blueprint-border">
+                                <span class="font-bold text-blueprint-ink block">Optical Rig</span>
+                                <span class="text-blueprint-muted text-[10px]">Studio camera &amp; halo lighting</span>
+                            </div>
+                            <div class="p-2.5 bg-white rounded border border-blueprint-border">
+                                <span class="font-bold text-blueprint-ink block">Kiosk Control</span>
+                                <span class="text-blueprint-muted text-[10px]">Full touch-screen workflow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: 6 Key Features (User Provided Text) -->
+                    <div class="lg:col-span-7 space-y-3.5">
+                        
+                        <!-- Feature 1 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                01
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">High-quality camera and lighting for clear and attractive photos.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Equipped with high-definition optical lenses and balanced illumination to ensure optimal brightness, depth, and clarity for every shot.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Feature 2 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                02
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">Touch-screen operation, allowing customers to control the photo-taking process easily.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Intuitive graphical interface enabling users to select layouts, start countdowns, trigger flash, and review shots effortlessly.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                03
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">Various backgrounds, filters, frames, and photo templates to personalize each photo.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Extensive aesthetic catalog featuring Korean trending filters, themed graphic overlays, and customizable border templates.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Feature 4 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                04
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">Instant photo printing so customers can receive physical photos immediately.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Commercial thermal dye-sublimation hardware outputting crisp, dry, water-resistant archival photo strips in seconds.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Feature 5 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                05
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">Digital photo sharing through QR codes or other digital platforms.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Instant generation of cloud download links and QR codes for downloading high-resolution digital files and live-action GIFs.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Feature 6 -->
+                        <div class="flex items-start gap-3.5 p-3.5 bg-white rounded-xl border border-blueprint-border hover:border-blueprint-ink transition shadow-2xs">
+                            <div class="w-8 h-8 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
+                                06
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-blueprint-ink">Customizable designs with event names, logos, themes, or special messages.</h4>
+                                <p class="text-xs text-blueprint-muted mt-1 leading-relaxed">
+                                    Flexible bespoke frame branding for corporate activations, weddings, birthday celebrations, and brand pop-ups.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ============================================================ -->
+            <!-- 02. PRODUCT / SERVICE BENEFITS                               -->
+            <!-- ============================================================ -->
+            <section id="benefits" class="py-12 border-b-2 border-blueprint-ink scroll-mt-20">
+                <div class="mb-4">
+                    <div class="font-mono text-xs font-bold text-brand-pink uppercase tracking-widest">// Section 02</div>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase text-blueprint-ink tracking-tight mt-1">2. Product/Service Benefits</h2>
+                </div>
+
+                <!-- Intro Statement (User Provided) -->
+                <div class="p-4 bg-rose-50/60 border-l-4 border-brand-pink rounded-r-xl mb-8">
+                    <p class="text-sm sm:text-base font-semibold text-gray-800 leading-relaxed">
+                        Photobooth provides customers with a convenient and enjoyable way to capture and keep memorable moments.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    
+                    <!-- Benefit 1 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B1
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Creates memorable experiences
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                Allows customers to take fun and creative photos with friends, family, or colleagues in an engaging, self-directed setting.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // High Emotional Engagement
+                        </div>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B2
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Saves time
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                The automated process allows customers to take and print photos quickly without unnecessary delays or technical complexity.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // Rapid Workflow Execution
+                        </div>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B3
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Provides personalized souvenirs
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                Customers can keep tangible, personalized prints as meaningful memories from special milestones and everyday gatherings.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // Tangible Physical Keepsake
+                        </div>
+                    </div>
+
+                    <!-- Benefit 4 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B4
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Encourages social interaction
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                Gives guests an opportunity to interact, have fun, try whimsical props, and take photos together collaboratively.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // Group Bonding Catalyst
+                        </div>
+                    </div>
+
+                    <!-- Benefit 5 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B5
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Suitable for different events
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                Versatile applicability across birthdays, weddings, graduations, corporate events, and social parties of any scale.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // Multi-Scenario Adaptation
+                        </div>
+                    </div>
+
+                    <!-- Benefit 6 -->
+                    <div class="bg-blueprint-card border border-blueprint-ink rounded-xl p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-9 h-9 rounded-lg bg-blueprint-ink text-white flex items-center justify-center font-mono font-bold text-xs mb-3.5">
+                                B6
+                            </div>
+                            <h3 class="font-bold text-sm text-blueprint-ink uppercase leading-snug">
+                                Combines physical and digital memories
+                            </h3>
+                            <p class="text-xs text-blueprint-muted mt-2 leading-relaxed">
+                                Allows customers to keep printed physical photo strips and high-res digital copies for seamless online social sharing.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blueprint-border font-mono text-[10px] text-blueprint-cadBlue font-bold">
+                            // Dual Format Retention
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ============================================================ -->
+            <!-- 03. TARGET CUSTOMERS                                         -->
+            <!-- ============================================================ -->
+            <section id="target-customers" class="py-12 border-b-2 border-blueprint-ink scroll-mt-20">
+                <div class="mb-8">
+                    <div class="font-mono text-xs font-bold text-brand-pink uppercase tracking-widest">// Section 03</div>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase text-blueprint-ink tracking-tight mt-1">3. Target Customers</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                    
+                    <!-- Segment 1: Gen Z & Youth -->
+                    <div class="bg-blueprint-card border-2 border-blueprint-ink rounded-xl p-6 sm:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-rose-100 rounded-bl-full pointer-events-none -mr-4 -mt-4 opacity-50"></div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-mono text-xs font-bold bg-blueprint-ink text-white px-3 py-1 rounded-full uppercase">
+                                    Segment 01 // Youth
+                                </span>
+                                <span class="font-mono text-xs text-brand-pink font-bold">High Social Activity</span>
+                            </div>
+
+                            <h3 class="text-xl sm:text-2xl font-black text-blueprint-ink uppercase tracking-tight mb-4">
+                                Gen Z &amp; Youth
+                            </h3>
+
+                            <p class="text-sm text-gray-700 leading-relaxed font-sans">
+                                Students, teenagers, and young adults who are tech-savvy, love taking check-in photos, and frequently share moments on social media (e.g., prom nights, birthday parties, festivals, and public events).
+                            </p>
+                        </div>
+
+                        <div class="mt-8 pt-4 border-t border-blueprint-border font-mono text-xs text-blueprint-muted flex flex-wrap gap-2">
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#TechSavvy</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#SocialSharing</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#Festivals</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#PromNights</span>
+                        </div>
+                    </div>
+
+                    <!-- Segment 2: Memory Preservation -->
+                    <div class="bg-blueprint-card border-2 border-blueprint-ink rounded-xl p-6 sm:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full pointer-events-none -mr-4 -mt-4 opacity-50"></div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-mono text-xs font-bold bg-blueprint-ink text-white px-3 py-1 rounded-full uppercase">
+                                    Segment 02 // Milestones
+                                </span>
+                                <span class="font-mono text-xs text-blueprint-cadBlue font-bold">Milestone Keepers</span>
+                            </div>
+
+                            <h3 class="text-xl sm:text-2xl font-black text-blueprint-ink uppercase tracking-tight mb-4">
+                                Individuals Seeking Memory Preservation
+                            </h3>
+
+                            <p class="text-sm text-gray-700 leading-relaxed font-sans">
+                                Hosts of weddings, family anniversaries, or graduation parties who want to capture and store beautiful moments in a modern, convenient, and lightweight format.
+                            </p>
+                        </div>
+
+                        <div class="mt-8 pt-4 border-t border-blueprint-border font-mono text-xs text-blueprint-muted flex flex-wrap gap-2">
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#Weddings</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#Anniversaries</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#Graduations</span>
+                            <span class="bg-white px-2.5 py-1 rounded border border-blueprint-border">#FamilyEvents</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ============================================================ -->
+            <!-- 04. UNIQUE OR ATTRACTIVE CHARACTERISTICS                     -->
+            <!-- ============================================================ -->
+            <section id="unique-characteristics" class="pt-12 pb-2 scroll-mt-20">
+                <div class="mb-8">
+                    <div class="font-mono text-xs font-bold text-brand-pink uppercase tracking-widest">// Section 04</div>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase text-blueprint-ink tracking-tight mt-1">4. Unique or Attractive Characteristics</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- Characteristic 1: Exceptional processing speed -->
+                    <div class="bg-blueprint-card border-2 border-blueprint-ink rounded-xl p-6 sm:p-7 shadow-xs flex flex-col justify-between h-full">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden border border-blueprint-border mb-5">
+                                <img src="images/specs_kiosk_terminal.jpg" alt="Instant Processing Terminal" class="w-full h-72 object-cover object-top">
+                                <div class="absolute top-3 left-3 bg-black/85 text-white font-mono text-[10px] px-2.5 py-1 rounded font-bold">
+                                    SPEED // INSTANT QR GENERATION
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 font-mono text-xs text-brand-pink font-bold uppercase mb-2">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>High-Throughput Architecture</span>
+                            </div>
+
+                            <h3 class="text-xl font-black text-blueprint-ink uppercase tracking-tight">
+                                Exceptional Processing Speed
+                            </h3>
+
+                            <p class="text-sm text-gray-700 mt-3 leading-relaxed font-sans">
+                                By eliminating the physical printing process, photo exporting and QR code generation happen almost instantly, ensuring a seamless flow of guests and avoiding overcrowding at the photo booth.
+                            </p>
+                        </div>
+
+                        <div class="mt-6 pt-3 border-t border-blueprint-border font-mono text-xs text-blueprint-ink flex items-center justify-between">
+                            <span class="text-blueprint-muted">// Traffic Flow:</span>
+                            <span class="font-bold text-emerald-600">Zero Queue Congestion</span>
+                        </div>
+                    </div>
+
+                    <!-- Characteristic 2: High-quality digital filters -->
+                    <div class="bg-blueprint-card border-2 border-blueprint-ink rounded-xl p-6 sm:p-7 shadow-xs flex flex-col justify-between h-full">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden border border-blueprint-border mb-5">
+                                <img src="images/specs_props_rack.jpg" alt="Studio Lighting & Props" class="w-full h-72 object-cover object-center">
+                                <div class="absolute top-3 left-3 bg-brand-pink text-white font-mono text-[10px] px-2.5 py-1 rounded font-bold">
+                                    IMAGE OPTICS // REALTIME FILTERS
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 font-mono text-xs text-brand-pink font-bold uppercase mb-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>Advanced Image Pipeline</span>
+                            </div>
+
+                            <h3 class="text-xl font-black text-blueprint-ink uppercase tracking-tight">
+                                High-Quality Digital Filters
+                            </h3>
+
+                            <p class="text-sm text-gray-700 mt-3 leading-relaxed font-sans">
+                                Integrated with built-in skin-smoothing, color-grading, and lighting digital filters directly on the screen before exporting the file.
+                            </p>
+                        </div>
+
+                        <div class="mt-6 pt-3 border-t border-blueprint-border font-mono text-xs text-blueprint-ink flex items-center justify-between">
+                            <span class="text-blueprint-muted">// Rendering Engine:</span>
+                            <span class="font-bold text-blueprint-cadBlue">On-Screen Studio Grading</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="bg-blueprint-ink text-gray-400 py-10 border-t border-gray-800 text-xs font-mono">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-white font-bold text-lg font-sans">4EVER</span>
+                <span>// Modular Photobooth Architecture &amp; Online Web Engine</span>
+            </div>
+            <div class="flex gap-4 text-gray-400">
+                <a href="index.htm" class="hover:text-white transition">Home Studio</a>
+                <a href="about.htm" class="hover:text-white transition">About Us</a>
+                <a href="promotions.htm" class="hover:text-white transition">Promotions</a>
+                <a href="places.htm" class="hover:text-white transition">Locations</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

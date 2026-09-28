@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | 4EVER Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#ff4d8d',
+                            pinkHover: '#e63977',
+                            lightPink: '#fff0f5',
+                            dark: '#111827',
+                            mint: '#e6fbf4',
+                            mintBorder: '#b3ebd9',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(0.8deg); }
+        }
+        .animate-float-slow {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        /* Riot Games Style Expanding Accordion */
+        .frame-accordion-panel {
+            flex: 1 1 0%;
+            min-width: 60px;
+            transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+        }
+        .frame-accordion-panel.is-active,
+        #frames-accordion:hover .frame-accordion-panel:hover {
+            flex: 3.8 1 0% !important;
+        }
+        #frames-accordion:hover .frame-accordion-panel:not(:hover) {
+            flex: 0.9 1 0% !important;
+            filter: grayscale(20%) brightness(0.7);
+        }
+        .frame-accordion-panel .expanded-info {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .frame-accordion-panel.is-active .expanded-info,
+        #frames-accordion:hover .frame-accordion-panel:hover .expanded-info {
+            opacity: 1 !important;
+            max-height: 180px !important;
+            transform: translateY(0) !important;
+            pointer-events: auto !important;
+        }
+        #frames-accordion:hover .frame-accordion-panel:not(:hover) .expanded-info {
+            opacity: 0 !important;
+            max-height: 0 !important;
+            transform: translateY(12px) !important;
+            pointer-events: none !important;
+        }
+        .frame-accordion-panel .collapsed-label {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            transition: opacity 0.3s ease;
+        }
+        .frame-accordion-panel.is-active .collapsed-label,
+        #frames-accordion:hover .frame-accordion-panel:hover .collapsed-label {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Nav Links -->
+            <div class="flex items-center gap-8">
+                <a href="index.htm" class="flex items-center gap-2 group">
+                    <span class="text-3xl font-extrabold tracking-tighter text-black group-hover:text-brand-pink transition-colors font-sans">
+                        4EVER
+                    </span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="index.htm" class="hover:text-brand-pink transition">Home</a>
+                    <a href="about.htm" class="text-brand-pink font-semibold hover:text-brand-pink transition">
+                        About Us
+                    </a>
+
+                    <!-- Product/Service Dropdown -->
+                    <div class="relative group cursor-pointer py-4">
+                        <a href="products.htm" class="flex items-center gap-1.5 hover:text-brand-pink transition font-medium">
+                            <span>Product / Service</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-400 group-hover:text-brand-pink group-hover:rotate-180 transition-transform duration-200"></i>
+                        </a>
+                        
+                        <!-- Dropdown Menu Box -->
+                        <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                            <div class="w-64 bg-white rounded-2xl shadow-xl border border-rose-100/80 p-2 overflow-hidden backdrop-blur-md">
+                                <a href="products.htm#main-features" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-100/60 text-brand-pink flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Main features</div>
+                                        <div class="text-[11px] text-gray-400">Các tính năng chính</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="products.htm#benefits" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-100/60 text-purple-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Product/service benefits</div>
+                                        <div class="text-[11px] text-gray-400">Lợi ích sản phẩm & dịch vụ</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#target-customers" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Target customers</div>
+                                        <div class="text-[11px] text-gray-400">Khách hàng mục tiêu</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#unique-characteristics" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Unique or attractive characteristics</div>
+                                        <div class="text-[11px] text-gray-400">Đặc điểm độc đáo & thu hút</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="promotions.htm" class="hover:text-brand-pink transition">
+                        Promotions
+                    </a>
+                    <a href="places.htm" class="hover:text-brand-pink transition">
+                        Places of Distribution
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-3">
+                <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-xs font-bold shadow-md hover:shadow-lg transition">
+                    <i class="fa-solid fa-camera text-brand-pink"></i>
+                    <span>Capture now</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN ABOUT HERO SECTION (Designed exactly like the user's mockup) -->
+    <main class="flex-grow">
+        <!-- Mint Green Hero Section -->
+        <section class="relative bg-gradient-to-b from-[#e5fbf5] via-[#e8fcf6] to-[#d9f8ef] pt-14 pb-20 md:pb-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <!-- Subtle background organic decorative curves -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-emerald-200/30 blur-3xl pointer-events-none"></div>
+            <div class="absolute top-1/2 -left-24 w-96 h-96 rounded-full bg-teal-100/40 blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <!-- Top Badge: Trung tâm máy ảnh -->
+                <div class="flex justify-center mb-5">
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium text-emerald-800 bg-white/80 border border-[#b2ebd8] shadow-xs backdrop-blur-xs">
+                        Photo Center
+                    </span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 text-center tracking-tight leading-tight max-w-4xl mx-auto">
+                    Embrace your uniqueness.
+                </h1>
+
+                <!-- Subtitle (2 lines) -->
+                <p class="mt-4 text-center text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    The light you want, the look you choose, the moment you decide to keep.<br class="hidden sm:inline">
+                    It all start here.
+                </p>
+
+                <!-- Two-Column Main Feature Showcase -->
+                <div class="mt-14 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    
+                    <!-- Left Column: Text & CTA -->
+                    <div class="lg:col-span-6 flex flex-col justify-center text-left">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-snug">
+                            VISION
+
+                        </h2>
+                        
+                        <p class="mt-5 text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed font-normal">
+                            Our vision is to become a fun and affordable photobooth brand where people can easily 
+capture and keep their favorite moments.
+                        </p>
+
+                        <!-- Call To Action Button -->
+                        <div class="mt-8 flex items-center gap-4">
+                            <a href="index.htm#booth" class="inline-flex items-center justify-center bg-black hover:bg-gray-800 text-white font-bold text-sm sm:text-base px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95">
+                                Capture now
+                            </a>
+                            <a href="#story" class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-600 hover:text-black transition">
+                                <span>Lear more</span>
+                                <i class="fa-solid fa-arrow-down text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Highlights Pills -->
+                        <div class="mt-10 pt-8 border-t border-emerald-300/40 grid grid-cols-3 gap-4 text-left">
+                            <div>
+                                <div class="text-xl sm:text-2xl font-black text-gray-900">4CUTS</div>
+                                <div class="text-xs text-gray-500 mt-0.5">4 Korea frames</div>
+                            </div>
+                            <div>
+                                <div class="text-xl sm:text-2xl font-black text-gray-900">100%</div>
+                                <div class="text-xs text-gray-500 mt-0.5">Your privacy</div>
+                            </div>
+                            <div>
+                                <div class="text-xl sm:text-2xl font-black text-gray-900">FREE</div>
+                                <div class="text-xs text-gray-500 mt-0.5">Download high quality pictures</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Visual Photo Strips Showcase -->
+                    <div class="lg:col-span-6 flex justify-center lg:justify-end items-center">
+                        <div class="relative max-w-[320px] sm:max-w-[340px] w-full transform hover:scale-[1.02] transition-transform duration-500 animate-float-slow">
+                            <!-- Team Photo Booth Strip -->
+                            <img src="images/team_photobooth.jpg" 
+                                 alt="4EVER Photo Booth Strip" 
+                                 class="w-full h-auto shadow-2xl rounded-2xl ring-1 ring-black/10 select-none pointer-events-none transform -rotate-1.5 hover:rotate-0 transition-transform duration-500">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION 1: VỀ CHÚNG TÔI & SỐ LIỆU (ABOUT US & STATS)     -->
+        <!-- Layout theo khối "О нас" trong mẫu thiết kế              -->
+        <!-- ======================================================== -->
+        <section id="story" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    
+                    <!-- Cột trái: Tiêu đề & Giới thiệu -->
+                    <div class="lg:col-span-5">
+                        <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ TẠI ĐÂY] -->
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-6">
+                            COMPANY INTRODUCTION 
+                        </h2>
+                        <!-- [BẠN CÓ THỂ THAY NỘI DUNG MÔ TẢ TẠI ĐÂY] -->
+                        <div class="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
+                            <p>
+                                4Ever is a photobooth brand for people who love taking photos and keeping fun memories with their friends, partners, and family. Customers can take many photos in one session and choose one frame to put them together.
+                            </p>
+                            <p>
+                                The digital photos will be sent directly through Zalo for quick and convenient. A photo strip costs 35,000 VND. Customers can also choose different accessories such as glasses, hats,bows… for free.
+
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Cột phải: 4 Khối Số liệu (2x2 Grid) -->
+                    <div class="lg:col-span-7">
+                        <div class="grid grid-cols-2 gap-8 sm:gap-12">
+                            <!-- [BẠN CÓ THỂ THAY ĐỔI SỐ LIỆU TẠI ĐÂY] -->
+                            <div>
+                                <div class="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">10+</div>
+                                <div class="text-xs sm:text-sm text-gray-500 font-medium mt-1.5">Korea standard color filter</div>
+                            </div>
+                            <div>
+                                <div class="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">1000+</div>
+                                <div class="text-xs sm:text-sm text-gray-500 font-medium mt-1.5">Photo created every day</div>
+                            </div>
+                            <div>
+                                <div class="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">4000+</div>
+                                <div class="text-xs sm:text-sm text-gray-500 font-medium mt-1.5">User favorite</div>
+                            </div>
+                            <div>
+                                <div class="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">95%</div>
+                                <div class="text-xs sm:text-sm text-gray-500 font-medium mt-1.5">Satisfication</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ======================================================== -->
+                <!-- SECTION 2: DẢI LOGO ĐỐI TÁC / NỀN TẢNG (LOGOS BAR)      -->
+                <!-- Layout dải logo ngang tương tự mẫu thiết kế              -->
+                <!-- ======================================================== -->
+                <div class="mt-20 pt-10 pb-8 border-t border-gray-100">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-between text-gray-400">
+                        <!-- [BẠN CÓ THỂ THAY ĐỔI LOGO HOẶC TÊN TẠI ĐÂY] -->
+                        <div class="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer justify-center md:justify-start">
+                            <i class="fa-solid fa-camera-retro text-xl text-gray-800"></i>
+                            <span class="font-bold text-sm sm:text-base tracking-tight text-gray-800">Logoipsum</span>
+                        </div>
+                        <div class="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer justify-center md:justify-start">
+                            <i class="fa-solid fa-shapes text-xl text-gray-800"></i>
+                            <span class="font-bold text-sm sm:text-base tracking-tight text-gray-800">Logoipsum</span>
+                        </div>
+                        <div class="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer justify-center md:justify-start">
+                            <i class="fa-solid fa-bolt text-xl text-gray-800"></i>
+                            <span class="font-bold text-sm sm:text-base tracking-tight text-gray-800">Logoipsum</span>
+                        </div>
+                        <div class="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer justify-center md:justify-start">
+                            <i class="fa-solid fa-layer-group text-xl text-gray-800"></i>
+                            <span class="font-bold text-sm sm:text-base tracking-tight text-gray-800">Logoipsum</span>
+                        </div>
+                        <div class="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer justify-center md:justify-start">
+                            <i class="fa-solid fa-fingerprint text-xl text-gray-800"></i>
+                            <span class="font-bold text-sm sm:text-base tracking-tight text-gray-800">Logoipsum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION 3: DANH MỤC NỔI BẬT (CATALOG / SHOWCASE CARDS)    -->
+        <!-- Layout theo khối "Каталог объектов" trong mẫu thiết kế    -->
+        <!-- ======================================================== -->
+        <section class="py-20 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Tiêu đề danh mục -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                    <div>
+                        <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ TẠI ĐÂY] -->
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                            Outstanding collection
+                        </h2>
+                        <!-- [BẠN CÓ THỂ THAY NỘI DUNG PHỤ ĐỀ TẠI ĐÂY] -->
+                        <p class="text-sm sm:text-base text-gray-500 mt-2">
+                            
+                        </p>
+                    </div>
+
+                    <!-- Nút điều hướng Carousel (< >) như mẫu thiết kế -->
+                    <div class="hidden sm:flex items-center gap-3">
+                        <button type="button" id="prev-frame-btn" aria-label="Previous" class="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center text-gray-700 hover:bg-black hover:text-white hover:border-black transition-all shadow-xs">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </button>
+                        <button type="button" id="next-frame-btn" aria-label="Next" class="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center text-gray-700 hover:bg-black hover:text-white hover:border-black transition-all shadow-xs">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Desktop: Riot Games Style Expanding Accordion (7 Panels) -->
+                <div class="hidden md:flex h-[520px] w-full rounded-3xl overflow-hidden shadow-2xl bg-neutral-950 border border-neutral-800 gap-1.5 p-1.5" id="frames-accordion">
+                    
+                    <!-- Panel 1: The 1975 Newspaper -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="0">
+                        <img src="images/frames/frame_the1975_newspaper.jpg" alt="Khung The 1975 Newspaper" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-stone-300 whitespace-nowrap">
+                            The 1975 Newspaper
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                The 1975 Newspaper
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Cherry blossom heart (Active by default) -->
+                    <div class="frame-accordion-panel is-active relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="1">
+                        <img src="images/frames/frame_pink_heart.jpg" alt="Cherry blossom heart" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-pink-300 whitespace-nowrap">
+                            Cherry blossom heart
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Cherry blossom heart
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 3: Monochrome 7:77 -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="2">
+                        <img src="images/frames/frame_black_sulfus.jpg" alt="Khung Monochrome 7:77" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-amber-300 whitespace-nowrap">
+                            Monochrome 7:77
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Monochrome 7:77
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 4: Blue Star Gingham -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="3">
+                        <img src="images/frames/frame_blue_gingham.jpg" alt="Khung Blue Star Gingham" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-sky-300 whitespace-nowrap">
+                            Blue Star Gingham
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Blue Star Gingham
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 5: Vintage Cottage Be -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="4">
+                        <img src="images/frames/frame_vintage_beige.jpg" alt="Khung Vintage Cottage Be" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-amber-200 whitespace-nowrap">
+                            Vintage Cottage Be
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Vintage Cottage Be
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 6: Cherry Scrapbook -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="5">
+                        <img src="images/frames/frame_cherry_scrapbook.jpg" alt="Khung Cherry Scrapbook" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-rose-300 whitespace-nowrap">
+                            Cherry Scrapbook
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Cherry Scrapbook
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 7: Capturing Moments -->
+                    <div class="frame-accordion-panel relative rounded-2xl overflow-hidden cursor-pointer select-none group flex flex-col justify-end" data-index="6">
+                        <img src="images/frames/frame_wine_ticket.jpg" alt="Khung Capturing Moments" class="absolute inset-0 w-full h-full object-cover object-top brightness-90 group-hover:brightness-100 transition-all duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-85 group-hover:opacity-75 transition-opacity"></div>
+                        <div class="absolute top-6 left-1/2 -translate-x-1/2 collapsed-label text-xs uppercase tracking-widest font-extrabold text-red-300 whitespace-nowrap">
+                            Capturing Moments
+                        </div>
+                        <div class="relative z-10 p-5 bg-gradient-to-t from-black/95 via-black/85 to-transparent flex flex-col justify-end">
+                            <h3 class="text-white font-black text-lg lg:text-xl leading-tight truncate">
+                                Capturing Moments
+                            </h3>
+                            <div class="expanded-info overflow-hidden">
+                                <div class="mt-3 flex items-center gap-3">
+                                    <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg transition-transform active:scale-95">
+                                        <span>Dùng khung này</span>
+                                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Mobile: Smooth Touch Snap Carousel (Tối ưu vuốt chạm trên điện thoại) -->
+                <div class="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 px-1 no-scrollbar" id="frames-mobile-carousel">
+                    
+                    <!-- Card 1 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_the1975_newspaper.jpg" alt="The 1975 Newspaper" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">The 1975 Newspaper</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_pink_heart.jpg" alt="Trái Tim Hồng Y2K" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Trái Tim Hồng Y2K</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_black_sulfus.jpg" alt="Monochrome 7:77" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Monochrome 7:77</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_blue_gingham.jpg" alt="Blue Star Gingham" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Blue Star Gingham</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_vintage_beige.jpg" alt="Vintage Cottage Be" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Vintage Cottage Be</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_cherry_scrapbook.jpg" alt="Cherry Scrapbook" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Cherry Scrapbook</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="w-[82vw] max-w-[290px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-xl bg-neutral-950 border border-neutral-800 flex flex-col h-[460px] relative">
+                        <img src="images/frames/frame_wine_ticket.jpg" alt="Capturing Moments" class="absolute inset-0 w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                        <div class="relative z-10 mt-auto p-4 bg-gradient-to-t from-black via-black/85 to-transparent">
+                            <h3 class="text-white font-black text-lg">Capturing Moments</h3>
+                            <a href="index.htm#booth" class="mt-3 inline-flex items-center gap-2 bg-brand-pink text-white text-xs font-bold px-4 py-2 rounded-full shadow-md">
+                                <span>Dùng khung này</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Nút điều hướng Carousel trên thiết bị di động -->
+                <div class="flex md:hidden justify-center items-center gap-3 mt-6">
+                    <button type="button" id="prev-frame-mobile-btn" aria-label="Previous" class="w-10 h-10 rounded-full border border-gray-300 bg-white flex items-center justify-center text-gray-700 shadow-xs active:bg-gray-100">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <button type="button" id="next-frame-mobile-btn" aria-label="Next" class="w-10 h-10 rounded-full border border-gray-300 bg-white flex items-center justify-center text-gray-700 shadow-xs active:bg-gray-100">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION 4: QUY TRÌNH HOẠT ĐỘNG (HOW WE WORK)              -->
+        <!-- Layout theo khối "Как мы работаем" trong mẫu thiết kế    -->
+        <!-- ======================================================== -->
+        <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Tiêu đề quy trình -->
+                <div class="mb-14">
+                    <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ TẠI ĐÂY] -->
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                        Core Values
+                    </h2>
+                    <!-- [BẠN CÓ THỂ THAY NỘI DUNG PHỤ ĐỀ TẠI ĐÂY] -->
+                    <p class="text-sm sm:text-base text-gray-500 mt-2">
+                    
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+                    
+                    <!-- Cột trái: Ảnh dọc lớn kèm Huy hiệu tròn nổi (Circular Badge) -->
+                    <div class="lg:col-span-5 relative">
+                        <!-- [BẠN CÓ THỂ THAY ĐƯỜNG DẪN ẢNH TẠI ĐÂY] -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-gray-100 aspect-[3/4]">
+                            <img src="images/mono_mansion.jpg" 
+                                 alt="Trải nghiệm Photo Booth" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Cột phải: Danh sách 5 bước với đường phân cách -->
+                    <div class="lg:col-span-7 flex flex-col">
+                        
+                        <!-- Bước 1 -->
+                        <div class="flex items-start gap-4 pb-6 border-b border-gray-100 group">
+                            <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs group-hover:bg-brand-pink transition-colors">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <div>
+                                <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ & MÔ TẢ BƯỚC 1] -->
+                                <h4 class="font-bold text-gray-900 text-base">
+                                     Creativity
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                     Encourage customers to express their own style through photos.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bước 2 -->
+                        <div class="flex items-start gap-4 py-6 border-b border-gray-100 group">
+                            <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs group-hover:bg-brand-pink transition-colors">
+                                <i class="fa-solid fa-table-cells"></i>
+                            </div>
+                            <div>
+                                <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ & MÔ TẢ BƯỚC 2] -->
+                                <h4 class="font-bold text-gray-900 text-base">
+                                    Joy
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                    Create a comfortable and enjoyable experience for every customer.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bước 3 -->
+                        <div class="flex items-start gap-4 py-6 border-b border-gray-100 group">
+                            <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs group-hover:bg-brand-pink transition-colors">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <div>
+                                <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ & MÔ TẢ BƯỚC 3] -->
+                                <h4 class="font-bold text-gray-900 text-base">
+                                    Affordability
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                    Offer quality photobooth services at a reasonable price.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bước 4 -->
+                        <div class="flex items-start gap-4 py-6 border-b border-gray-100 group">
+                            <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs group-hover:bg-brand-pink transition-colors">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                            <div>
+                                <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ & MÔ TẢ BƯỚC 4] -->
+                                <h4 class="font-bold text-gray-900 text-base">
+                                    Customer Satisfaction
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                     Listen to customers and meet their needs.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bước 5 -->
+                        <div class="flex items-start gap-4 pt-6 group">
+                            <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs group-hover:bg-brand-pink transition-colors">
+                                <i class="fa-solid fa-download"></i>
+                            </div>
+                            <div>
+                                <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ & MÔ TẢ BƯỚC 5] -->
+                                <h4 class="font-bold text-gray-900 text-base">
+                                    Memories
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                    Help customers capture and preserve meaningful moments.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION 5: ĐÁNH GIÁ TỪ KHÁCH HÀNG (TESTIMONIALS)          -->
+        <!-- Layout theo khối "Что о нас говорят клиенты" ở mẫu        -->
+        <!-- ======================================================== -->
+        <section class="py-20 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ TẠI ĐÂY] -->
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                        Mission 
+                    </h2>
+                    <!-- [BẠN CÓ THỂ THAY NỘI DUNG PHỤ ĐỀ TẠI ĐÂY] -->
+                    <p class="text-sm sm:text-base text-gray-500 mt-2">
+                        To provide affordable and enjoyable photobooth experiences, allowing customers to express their creativity and preserve memorable moments with friends and loved ones.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Testimonial Card 1 -->
+                    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-xs flex flex-col justify-between">
+                        <div>
+                            <div class="text-4xl text-brand-pink font-serif leading-none mb-4">&ldquo;</div>
+                            <!-- [BẠN CÓ THỂ THAY NỘI DUNG ĐÁNH GIÁ 1] -->
+                            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                                Giao diện chụp ảnh cực mượt, bộ lọc màu chuẩn Hàn Quốc rất nịnh da! Bọn mình có thể tự chụp dải ảnh nhóm ở nhà mà chất lượng in ra đẹp không khác gì ngoài tiệm photobooth.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 mt-8 pt-5 border-t border-gray-100">
+                            <!-- [BẠN CÓ THỂ THAY AVATAR & TÊN NGƯỜI DÙNG 1] -->
+                            <div class="w-11 h-11 rounded-full bg-rose-100 text-brand-pink font-bold flex items-center justify-center text-sm shrink-0">
+                                PN
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-gray-900">Phương Nhi</div>
+                                <div class="text-xs text-gray-400">Sinh viên &bull; Hà Nội</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial Card 2 -->
+                    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-xs flex flex-col justify-between">
+                        <div>
+                            <div class="text-4xl text-brand-pink font-serif leading-none mb-4">&ldquo;</div>
+                            <!-- [BẠN CÓ THỂ THAY NỘI DUNG ĐÁNH GIÁ 2] -->
+                            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                                Thích nhất là tính riêng tư, ảnh xử lý trực tiếp trên máy không bị upload lên server. Kho khung ảnh Y2K và Monchhichi siêu cưng, cập nhật theo trend rất nhanh!
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 mt-8 pt-5 border-t border-gray-100">
+                            <!-- [BẠN CÓ THỂ THAY AVATAR & TÊN NGƯỜI DÙNG 2] -->
+                            <div class="w-11 h-11 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-sm shrink-0">
+                                TH
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-gray-900">Tuấn Hải</div>
+                                <div class="text-xs text-gray-400">Content Creator &bull; TP.HCM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION 6: FORM LIÊN HỆ / HỢP TÁC (CONTACT FORM)         -->
+        <!-- Layout theo khối "Давайте обсудим сотрудничество!" ở mẫu  -->
+        <!-- ======================================================== -->
+        <section class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Khung nền đen sang trọng bo góc lớn -->
+                <div class="bg-gray-900 text-white rounded-3xl p-8 sm:p-12 lg:p-14 shadow-2xl relative overflow-hidden">
+                    
+                    <!-- Decorative subtle blur -->
+                    <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-brand-pink/20 blur-3xl pointer-events-none"></div>
+
+                    <div class="relative z-10 text-center max-w-2xl mx-auto mb-10">
+                        <!-- [BẠN CÓ THỂ THAY TIÊU ĐỀ TẠI ĐÂY] -->
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">
+                            Hãy kết nối cùng chúng tôi!
+                        </h2>
+                        <!-- [BẠN CÓ THỂ THAY MÔ TẢ TẠI ĐÂY] -->
+                        <p class="mt-3 text-sm sm:text-base text-gray-400 leading-relaxed">
+                            Nếu bạn có câu hỏi, đề xuất khung ảnh mới hoặc muốn hợp tác mang Photo Booth đến sự kiện của mình, hãy để lại thông tin nhé.
+                        </p>
+                    </div>
+
+                    <!-- Form nhập thông tin -->
+                    <form class="relative z-10 space-y-4 max-w-xl mx-auto" onsubmit="event.preventDefault(); alert('Cảm ơn bạn! Thông tin liên hệ đã được ghi nhận.');">
+                        <div>
+                            <input type="text" 
+                                   required
+                                   placeholder="Full Name" 
+                                   class="w-full bg-gray-800/90 border border-gray-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition">
+                        </div>
+                        <div>
+                            <input type="text" 
+                                   required
+                                   placeholder="Email or phone number" 
+                                   class="w-full bg-gray-800/90 border border-gray-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition">
+                        </div>
+                        <div>
+                            <textarea rows="3" 
+                                      placeholder="Nội dung lời nhắn hoặc yêu cầu của bạn..." 
+                                      class="w-full bg-gray-800/90 border border-gray-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition resize-none"></textarea>
+                        </div>
+                        
+                        <!-- Nút gửi (Pill-shaped như trong mẫu thiết kế) -->
+                        <div class="pt-2">
+                            <button type="submit" 
+                                    class="w-full bg-white hover:bg-gray-100 text-gray-900 font-bold py-3.5 px-6 rounded-full text-sm sm:text-base transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shadow-md">
+                                Gửi thông tin liên hệ
+                            </button>
+                        </div>
+
+                        <!-- Ghi chú bảo mật nhỏ dưới nút bấm -->
+                        <p class="text-[11px] text-gray-400 text-center pt-2">
+                            Chúng tôi cam kết tôn trọng và bảo mật 100% thông tin cá nhân của bạn.
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-extrabold tracking-tighter text-white font-sans">4EVER</span>
+                    <span class="text-xs text-gray-500">| Online Photobooth Studio</span>
+                </div>
+                <div class="flex gap-6 text-gray-400">
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-tiktok text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 4EVER Photo Booth. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:underline">Điều khoản dịch vụ</a>
+                    <a href="#" class="hover:underline">Chính sách bảo mật</a>
+                    <a href="#" class="hover:underline">Liên hệ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Điều khiển Accordion Khung ảnh phong cách Riot Games
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordion = document.getElementById('frames-accordion');
+            const panels = accordion ? accordion.querySelectorAll('.frame-accordion-panel') : [];
+            const prevBtn = document.getElementById('prev-frame-btn');
+            const nextBtn = document.getElementById('next-frame-btn');
+            let activeIdx = 1;
+
+            function setActivePanel(idx) {
+                if (!panels.length) return;
+                activeIdx = (idx + panels.length) % panels.length;
+                panels.forEach((p, i) => {
+                    if (i === activeIdx) {
+                        p.classList.add('is-active');
+                    } else {
+                        p.classList.remove('is-active');
+                    }
+                });
+            }
+
+            if (panels.length) {
+                panels.forEach((panel, i) => {
+                    panel.addEventListener('click', (e) => {
+                        // Không chặn click vào link 'Dùng khung này'
+                        if (e.target.closest('a')) return;
+                        setActivePanel(i);
+                    });
+                });
+
+                if (prevBtn) prevBtn.addEventListener('click', () => setActivePanel(activeIdx - 1));
+                if (nextBtn) nextBtn.addEventListener('click', () => setActivePanel(activeIdx + 1));
+            }
+
+            // Điều khiển vuốt Carousel trên Mobile
+            const mobileCarousel = document.getElementById('frames-mobile-carousel');
+            const prevMobileBtn = document.getElementById('prev-frame-mobile-btn');
+            const nextMobileBtn = document.getElementById('next-frame-mobile-btn');
+
+            if (mobileCarousel && prevMobileBtn && nextMobileBtn) {
+                const scrollStep = 300;
+                prevMobileBtn.addEventListener('click', () => {
+                    mobileCarousel.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+                });
+                nextMobileBtn.addEventListener('click', () => {
+                    mobileCarousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4EVER - Free Online Korean Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#ff4d8d',
+                            pinkHover: '#e63977',
+                            lightPink: '#fff0f5',
+                            dark: '#111827',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Photo Strip Styles */
+        .photo-frame-classic {
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        }
+        .photo-frame-pink {
+            background-color: #ffe4e6;
+            border: 2px solid #f43f5e;
+        }
+        .photo-frame-black {
+            background-color: #18181b;
+            color: #ffffff;
+        }
+        .photo-frame-retro {
+            background-color: #fef3c7;
+            border: 4px dashed #d97706;
+        }
+
+        /* 5 Custom Graphic Frames */
+        .photo-frame-pink-ribbon {
+            background-image: url('images/frames/frame_pink_ribbon.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #ffccd9;
+        }
+        .photo-frame-monchhichi {
+            background-image: url('images/frames/frame_monchhichi.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #e0c8b3;
+        }
+        .photo-frame-receiptify {
+            background-image: url('images/frames/frame_receiptify.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #ffd1dc;
+        }
+        .photo-frame-flower-heart {
+            background-image: url('images/frames/frame_flower_heart.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #c9d8a8;
+        }
+        .photo-frame-fruit-picnic {
+            background-image: url('images/frames/frame_fruit_picnic.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #f8c1b5;
+        }
+        .photo-strip-shadow {
+            filter: drop-shadow(0 20px 13px rgba(0,0,0,0.08)) drop-shadow(0 8px 5px rgba(0,0,0,0.08));
+        }
+
+        /* Video Filters */
+        .filter-normal { filter: none; }
+        .filter-vintage { filter: sepia(0.3) contrast(1.1) brightness(0.9) saturate(1.2); }
+        .filter-bw { filter: grayscale(1) contrast(1.2); }
+        .filter-warm { filter: sepia(0.2) saturate(1.4) hue-rotate(-10deg); }
+        .filter-cool { filter: hue-rotate(30deg) saturate(1.1) brightness(1.05); }
+        .filter-glow { filter: brightness(1.15) contrast(0.95) saturate(1.1); }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-rose-50/40 via-white to-gray-50 text-gray-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-pink selection:text-white">
+
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Nav Links -->
+            <div class="flex items-center gap-8">
+                <!-- 4EVER Brand Logo -->
+                <a href="index.htm" class="flex items-center gap-2 group">
+                    <span class="text-3xl font-extrabold tracking-tighter text-black group-hover:text-brand-pink transition-colors font-sans">
+                        4EVER
+                    </span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="index.htm" class="text-brand-pink font-semibold hover:text-brand-pink transition">Home</a>
+                    <a href="about.htm" class="hover:text-brand-pink transition">
+                        About Us
+                    </a>
+                    <!-- Product/Service Dropdown -->
+                    <div class="relative group cursor-pointer py-4">
+                        <a href="products.htm" class="flex items-center gap-1.5 hover:text-brand-pink transition font-medium">
+                            <span>Product / Service</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-400 group-hover:text-brand-pink group-hover:rotate-180 transition-transform duration-200"></i>
+                        </a>
+                        
+                        <!-- Dropdown Menu Box -->
+                        <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                            <div class="w-64 bg-white rounded-2xl shadow-xl border border-rose-100/80 p-2 overflow-hidden backdrop-blur-md">
+                                <a href="products.htm#main-features" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-100/60 text-brand-pink flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Main features</div>
+                                        <div class="text-[11px] text-gray-400">Core capabilities & features</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="products.htm#benefits" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-100/60 text-purple-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Product/service benefits</div>
+                                        <div class="text-[11px] text-gray-400">Key customer benefits</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#target-customers" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Target customers</div>
+                                        <div class="text-[11px] text-gray-400">Ideal customer profile</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#unique-characteristics" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Unique or attractive characteristics</div>
+                                        <div class="text-[11px] text-gray-400">Signature highlights & USP</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="promotions.htm" class="hover:text-brand-pink transition">
+                        Promotions
+                    </a>
+                    <a href="places.htm" class="hover:text-brand-pink transition">
+                        Places of Distribution
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Right: Actions & Profile -->
+            <div class="flex items-center gap-3">
+                <button title="Mobile App" class="p-2 text-gray-600 hover:text-brand-pink hover:bg-rose-50 rounded-full transition hidden sm:block">
+                    <i class="fa-solid fa-mobile-screen-button text-lg"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-block px-3 py-1.5 text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition">API</a>
+                
+                <!-- Upgrade Button with Badge -->
+                <a href="#" class="relative inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-4 py-2 rounded-full text-xs font-bold shadow-md hover:shadow-lg transition transform active:scale-95">
+                    <i class="fa-solid fa-crown text-amber-400"></i>
+                    <span></span>
+                    <span class="absolute -top-2 -right-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[9px] px-1.5 py-0.2 rounded-full font-extrabold uppercase animate-bounce">
+                        
+                    </span>
+                </a>
+
+                <button class="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-brand-pink transition hidden sm:block">
+                    Sign In
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ===== HERO SECTION ===== -->
+        <section id="heroSection" class="relative w-full overflow-hidden" style="height:420px; background: linear-gradient(to right, #fce8f0 0%, #f5e8f8 30%, #f0f0ff 55%, #dff0fb 80%, #cceefa 100%);">
+
+            <style>
+                @keyframes heroFloatA {
+                    0%,100% { transform: rotate(-10deg) translateY(0px); }
+                    50%     { transform: rotate(-10deg) translateY(-10px); }
+                }
+                @keyframes heroFloatB {
+                    0%,100% { transform: rotate(5deg) translateY(0px); }
+                    50%     { transform: rotate(5deg) translateY(-8px); }
+                }
+                @keyframes heroFloatC {
+                    0%,100% { transform: rotate(-5deg) translateY(0px); }
+                    50%     { transform: rotate(-5deg) translateY(-10px); }
+                }
+                @keyframes heroFloatD {
+                    0%,100% { transform: rotate(-8deg) translateY(0px); }
+                    50%     { transform: rotate(-8deg) translateY(-12px); }
+                }
+                @keyframes heroFloatE {
+                    0%,100% { transform: rotate(8deg) translateY(0px); }
+                    50%     { transform: rotate(8deg) translateY(-10px); }
+                }
+                @keyframes heroFloatF {
+                    0%,100% { transform: rotate(-6deg) translateY(0px); }
+                    50%     { transform: rotate(-6deg) translateY(-9px); }
+                }
+                .hfa { animation: heroFloatA 4s ease-in-out infinite; }
+                .hfb { animation: heroFloatB 5s ease-in-out infinite; }
+                .hfc { animation: heroFloatC 3.8s ease-in-out infinite; }
+                .hfd { animation: heroFloatD 4.5s ease-in-out infinite; }
+                .hfe { animation: heroFloatE 3.5s ease-in-out infinite; }
+                .hff { animation: heroFloatF 4.2s ease-in-out infinite; }
+
+                .hcard {
+                    position: absolute;
+                    background: #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07);
+                    overflow: hidden;
+                }
+
+                .hero-ai-text {
+                    font-style: italic;
+                    font-weight: 900;
+                    background: linear-gradient(90deg, #ff3d8b 0%, #ff79b0 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    display: inline;
+                }
+            </style>
+
+            <!-- CỤM BÊN TRÁI (3 THẺ): TÔNG PASTEL & BE DỊU NHẸ -->
+            <!-- CARD 1: Dải ảnh photobooth đôi (picme_strip) -->
+            <div class="hcard hfa hidden lg:block"
+                 style="width:125px; top:6%; left:3%; padding:4px; background:#ffffff; box-shadow:0 12px 30px rgba(0,0,0,0.15);">
+                <img src="images/picme_strip.jpg" alt="Photobooth đôi Picme"
+                     style="width:100%; height:225px; object-fit:cover; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CARD 2: Mono Mansion Polaroid hồng dán băng keo (Ảnh mới) -->
+            <div class="hcard hfb hidden lg:block"
+                 style="width:130px; top:3%; left:calc(50% - 215px); padding:4px; background:#ffffff; box-shadow:0 10px 28px rgba(0,0,0,0.12);">
+                <img src="images/mono_mansion_polaroid.jpg" alt="Mono Mansion Polaroid hồng"
+                     style="width:100%; height:160px; object-fit:cover; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CARD 3: Mothaiba Neutral thanh lịch (Ảnh mới) -->
+            <div class="hcard hfd hidden lg:block"
+                 style="width:125px; bottom:4%; left:8%; padding:4px; background:#ffffff; box-shadow:0 12px 30px rgba(0,0,0,0.14);">
+                <img src="images/mothaiba_neutral.jpg" alt="Mothaiba Neutral"
+                     style="width:100%; height:170px; object-fit:cover; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CỤM BÊN PHẢI (3 THẺ): TÔNG THỜI THƯỢNG & TƯƠNG PHẢN -->
+            <!-- CARD 4: Khung ảnh 4 ô Mono Mansion xám trắng hiện có -->
+            <div class="hcard hfc hidden lg:block"
+                 style="width:130px; top:5%; right:3.5%; padding:5px; background:#ffffff; box-shadow:0 12px 30px rgba(0,0,0,0.13);">
+                <img src="images/mono_mansion.jpg" alt="Mono Mansion Style"
+                     style="width:100%; height:165px; object-fit:cover; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CARD 5: Mono Mansion tông đen cá tính (Ảnh mới) -->
+            <div class="hcard hff hidden lg:block"
+                 style="width:125px; top:3%; right:calc(50% - 215px); padding:4px; background:#ffffff; box-shadow:0 12px 30px rgba(0,0,0,0.14);">
+                <img src="images/mono_mansion_black.jpg" alt="Mono Mansion tông đen cá tính"
+                     style="width:100%; height:160px; object-fit:cover; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CARD 6: Ảnh chân dung sao lấp lánh (star_portrait) -->
+            <div class="hcard hfe hidden lg:block"
+                 style="width:125px; bottom:5%; right:5%; padding:4px; background:#ffffff; box-shadow:0 12px 30px rgba(0,0,0,0.13);">
+                <img src="images/star_portrait.jpg" alt="Chân dung tỏa sáng"
+                     style="width:100%; height:150px; object-fit:cover; object-position:bottom; border-radius:8px; display:block;">
+            </div>
+
+            <!-- CENTER TEXT CONTENT -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4" style="z-index:10;">
+                <h1 style="font-size:clamp(2rem,5vw,3.25rem); font-weight:900; line-height:1.15; color:#111827; margin-bottom:18px; max-width:480px;">
+                    <span class="hero-ai-text"></span><br>
+                    <br>
+                    4EVER
+                </h1>
+
+                <p style="font-size:0.8rem; color:#555; line-height:1.7; max-width:380px; margin-bottom:28px;">
+                    <br>
+                    <br>
+                    
+                </p>
+
+                <a href="#photoboothApp"
+                   style="display:inline-flex;align-items:center;gap:8px;background:#111827;color:#fff;font-weight:700;font-size:0.95rem;padding:14px 36px;border-radius:100px;box-shadow:0 4px 20px rgba(0,0,0,0.25);text-decoration:none;transition:transform .15s,box-shadow .15s;"
+                   onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.3)'"
+                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'">
+                    Start 
+                </a>
+            </div>
+        </section>
+        <!-- ===== END HERO SECTION ===== -->
+
+        <section class="max-w-4xl mx-auto px-4 pt-8 pb-6 text-center">
+            <!-- Breadcrumbs -->
+            <div class="flex justify-center items-center gap-2 text-xs text-gray-500 mb-4">
+                <a href="index.htm" class="hover:underline">Home</a>
+                <span>&rsaquo;</span>
+                <a href="#" class="hover:underline">All Tools</a>
+                <span>&rsaquo;</span>
+                <span class="text-gray-800 font-semibold">Photo Booth</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight mb-4">
+                Online Photo Booth 
+            </h2>
+            <p class="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                 <span class="font-semibold text-brand-pink">4EVER Life4Cuts</span> 
+            </p>
+        </section>
+
+        <!-- PHOTOBOOTH APP SECTION -->
+        <section class="max-w-6xl mx-auto px-4 py-4 mb-16">
+            <div id="photoboothApp" class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+                <!-- Top Toolbar -->
+                <div class="bg-rose-50/50 p-4 border-b border-rose-100 flex flex-wrap items-center justify-between gap-4">
+                    <!-- Timer Controls -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">
+                            <i class="fa-regular fa-clock mr-1"></i>Set timer:
+                        </span>
+                        <button data-timer="3" class="timer-btn bg-white border border-rose-200 text-gray-700 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold transition active">3s</button>
+                        <button data-timer="5" class="timer-btn bg-white border border-rose-200 text-gray-700 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold transition">5s</button>
+                        <button data-timer="10" class="timer-btn bg-white border border-rose-200 text-gray-700 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold transition">10s</button>
+                    </div>
+
+                    <!-- Photo Count -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">
+                            <i class="fa-solid fa-images mr-1"></i>Number of photos:
+                        </span>
+                        <select id="shotsCountSelect" class="bg-white border border-rose-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold focus:outline-none focus:border-brand-pink">
+                            <option value="4">4 Photos (Long Strip)</option>
+                            <option value="3">3 Photos (Memories)</option>
+                            <option value="2">2 Photos (Duo)</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter Selection -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Filter:
+                        </span>
+                        <select id="filterSelect" class="bg-white border border-rose-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold focus:outline-none focus:border-brand-pink">
+                            <option value="filter-normal">Natural (Normal)</option>
+                            <option value="filter-glow">Glow</option>
+                            <option value="filter-vintage">Vintage</option>
+                            <option value="filter-bw">Black & White (B&W)</option>
+                            <option value="filter-warm">Warm</option>
+                            <option value="filter-cool">Cool Tone</option>
+                        </select>
+                    </div>
+
+                    <!-- Upload Custom Photo Option -->
+                    <div>
+                        <label for="uploadPhotoInput" class="cursor-pointer bg-white border border-rose-200 hover:border-brand-pink text-gray-700 hover:text-brand-pink px-4 py-1.5 rounded-full text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-upload text-brand-pink"></i>
+                            <span>Upload</span>
+                        </label>
+                        <input type="file" id="uploadPhotoInput" accept="image/*" multiple class="hidden">
+                    </div>
+                </div>
+
+                <!-- Main Booth Grid — Giao diện 3 cột theo chuẩn thiết kế mới (Bố cục | Camera | Hỗ trợ chụp) -->
+                <div class="p-4 sm:p-6 bg-slate-50/60 border-t border-gray-100">
+                    <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr_170px] gap-5 items-start">
+
+                        <!-- ===== CỘT 1 (TRÁI): CHỌN BỐ CỤC ===== -->
+                        <div class="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-xs flex flex-col gap-3">
+                            <h4 class="text-xs font-extrabold text-gray-800 tracking-wider uppercase">Choose a layout</h4>
+                            
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <!-- Bố cục 1: Dải dọc 4 ô (Đang chọn - Active) -->
+                                <button type="button" data-layout="strip-4" class="layout-btn relative aspect-[3/4] rounded-xl border-2 border-blue-500 bg-blue-50/20 p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group shadow-2xs">
+                                    <div class="absolute top-1.5 left-1.5 text-blue-600 text-xs">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                    <!-- Icon mô phỏng 4 ô dọc -->
+                                    <div class="w-6 h-14 border border-gray-400 rounded-xs flex flex-col divide-y divide-gray-400">
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                    </div>
+                                </button>
+
+                                <!-- Bố cục 2: 2 cột dọc song song -->
+                                <button type="button" data-layout="strip-2-col" class="layout-btn relative aspect-[3/4] rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group">
+                                    <div class="w-10 h-14 border border-gray-400 rounded-xs flex divide-x divide-gray-400">
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                    </div>
+                                </button>
+
+                                <!-- Bố cục 3: Dải dọc 3 ô -->
+                                <button type="button" data-layout="strip-3" class="layout-btn relative aspect-[3/4] rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group">
+                                    <div class="w-6 h-14 border border-gray-400 rounded-xs flex flex-col divide-y divide-gray-400">
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                        <div class="flex-1"></div>
+                                    </div>
+                                </button>
+
+                                <!-- Bố cục 4: Lưới vuông 2x2 (4 ô) -->
+                                <button type="button" data-layout="grid-2x2" class="layout-btn relative aspect-[3/4] rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group">
+                                    <div class="w-10 h-10 border border-gray-400 rounded-xs grid grid-cols-2 grid-rows-2 divide-x divide-y divide-gray-400">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </button>
+
+                                <!-- Bố cục 5: 1 ô dọc lớn bên trái + 2 ô xếp dọc bên phải -->
+                                <button type="button" data-layout="split-left" class="layout-btn relative aspect-[3/4] rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group">
+                                    <div class="w-10 h-14 border border-gray-400 rounded-xs flex divide-x divide-gray-400">
+                                        <div class="w-1/2"></div>
+                                        <div class="w-1/2 flex flex-col divide-y divide-gray-400">
+                                            <div class="flex-1"></div>
+                                            <div class="flex-1"></div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <!-- Bố cục 6: 1 ô ngang lớn ở trên + 2 ô nhỏ bên dưới -->
+                                <button type="button" data-layout="split-top" class="layout-btn relative aspect-[3/4] rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center transition hover:border-blue-500 focus:outline-none group">
+                                    <div class="w-11 h-14 border border-gray-400 rounded-xs flex flex-col divide-y divide-gray-400">
+                                        <div class="h-1/2"></div>
+                                        <div class="h-1/2 flex divide-x divide-gray-400">
+                                            <div class="flex-1"></div>
+                                            <div class="flex-1"></div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ===== CỘT 2 (GIỮA): CAMERA PREVIEW & NÚT CHỤP ===== -->
+                        <div class="flex flex-col items-center">
+                            <!-- Khung Camera chính bo góc lớn -->
+                            <div id="cameraContainer" class="relative w-full aspect-[4/3] bg-gray-900 rounded-3xl overflow-hidden shadow-md border border-gray-200/80 flex items-center justify-center">
+                                
+                                <!-- Live Camera Video -->
+                                <video id="webcamVideo" autoplay playsinline muted class="w-full h-full object-cover -scale-x-100 filter-normal transition-all duration-300"></video>
+                                
+                                <!-- Mock Camera Canvas -->
+                                <canvas id="mockCameraCanvas" class="hidden w-full h-full object-cover"></canvas>
+
+                                <!-- Nút Flash góc trên bên trái camera -->
+                                <button id="camFlashBtn" type="button" title="Bật/Tắt Flash" class="absolute top-3.5 left-3.5 z-20 w-9 h-9 rounded-full bg-black/45 hover:bg-black/70 text-white backdrop-blur-md flex items-center justify-center transition shadow-xs">
+                                    <i class="fa-solid fa-bolt text-xs"></i>
+                                </button>
+
+                                <!-- Nút Đổi Camera góc trên bên phải camera -->
+                                <button id="toggleCameraModeBtn" type="button" title="Chuyển chế độ camera/mô phỏng" class="absolute top-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-black/45 hover:bg-black/70 text-white backdrop-blur-md flex items-center justify-center transition shadow-xs">
+                                    <i class="fa-solid fa-arrows-rotate text-xs"></i>
+                                </button>
+
+                                <!-- Live Countdown Overlay -->
+                                <div id="countdownOverlay" class="hidden absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-30">
+                                    <span id="countdownNumber" class="text-white text-8xl font-black animate-ping drop-shadow-lg">3</span>
+                                </div>
+
+                                <!-- Flash Effect Overlay -->
+                                <div id="flashOverlay" class="pointer-events-none absolute inset-0 bg-white opacity-0 transition-opacity duration-150 z-40"></div>
+
+                                <!-- Overlay Grid Lines Helper -->
+                                <div class="pointer-events-none absolute inset-0 border border-white/10 grid grid-cols-3 grid-rows-3">
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div class="border-b border-white/10"></div>
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div class="border-b border-white/10"></div>
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div class="border-r border-b border-white/10"></div>
+                                    <div></div>
+                                </div>
+                            </div>
+
+                            <!-- Thanh điều khiển phía dưới Camera -->
+                            <div class="w-full bg-white rounded-2xl p-3 px-6 mt-3.5 border border-gray-200/80 shadow-xs flex items-center justify-between">
+                                <!-- Flash indicator / toggle -->
+                                <button id="flashToggleBtn" type="button" class="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-blue-600 transition">
+                                    <i class="fa-solid fa-bolt text-sm"></i>
+                                    <span id="flashLabel">Off</span>
+                                </button>
+
+                                <!-- Nút chụp tròn màu xanh dương nổi bật ở giữa -->
+                                <button id="startCaptureBtn" type="button" title="Capture photo" class="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 ring-4 ring-blue-100 shadow-md shadow-blue-500/25 active:scale-95 transition-all duration-200 flex items-center justify-center text-white focus:outline-none">
+                                    <i class="fa-solid fa-camera text-xl"></i>
+                                </button>
+
+                                <!-- Nút Đổi camera -->
+                                <button id="flipCameraBtn" type="button" class="flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-blue-600 transition">
+                                    <i class="fa-solid fa-camera-rotate text-sm"></i>
+                                    <span>Swap camera</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ===== CỘT 3 (PHẢI): HỖ TRỢ CHỤP ===== -->
+                        <div class="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-xs flex flex-col justify-between gap-3 h-full">
+                            <div>
+                                <h4 class="text-xs font-extrabold text-blue-950 tracking-wider uppercase text-center mb-3">Photographic support</h4>
+                                
+                                <!-- 4 ô trống chưa có ảnh (Placeholder slots) -->
+                                <div id="supportSlotsContainer" class="flex flex-col gap-2.5">
+                                    <!-- Slot 1 -->
+                                    <div class="support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group">
+                                        <i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i>
+                                        <span class="text-[10px] font-medium text-gray-400">Slot 1</span>
+                                    </div>
+                                    <!-- Slot 2 -->
+                                    <div class="support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group">
+                                        <i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i>
+                                        <span class="text-[10px] font-medium text-gray-400">Slot 2</span>
+                                    </div>
+                                    <!-- Slot 3 -->
+                                    <div class="support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group">
+                                        <i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i>
+                                        <span class="text-[10px] font-medium text-gray-400">Slot 3</span>
+                                    </div>
+                                    <!-- Slot 4 -->
+                                    <div class="support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group">
+                                        <i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i>
+                                        <span class="text-[10px] font-medium text-gray-400">Slot 4</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nút Thêm ảnh & Xóa ảnh -->
+                            <div class="flex items-center gap-2 pt-2 border-t border-gray-100">
+                                <label for="uploadPhotoInput" class="flex-1 cursor-pointer py-2.5 px-2 rounded-xl border border-gray-200 bg-white hover:border-blue-500 hover:text-blue-600 transition flex flex-col items-center justify-center gap-1 text-gray-700 shadow-2xs">
+                                    <i class="fa-solid fa-plus text-xs"></i>
+                                    <span class="text-[10px] font-bold">Add</span>
+                                </label>
+                                
+                                <button id="resetPhotosBtn" type="button" title="Clear all photos" class="flex-1 py-2.5 px-2 rounded-xl border border-gray-200 bg-white hover:border-red-400 hover:text-red-500 transition flex flex-col items-center justify-center gap-1 text-gray-700 shadow-2xs">
+                                    <i class="fa-regular fa-trash-can text-xs"></i>
+                                    <span class="text-[10px] font-bold">Delete</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Khối xem trước đã được chuyển thành Modal Popup ẩn (không còn hiển thị chiếm chỗ trên giao diện chính) -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== MODAL POPUP: KẾT QUẢ DẢI ẢNH (CHỈ BẬT KHI CHỤP XONG) ===== -->
+        <div id="resultModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+            <div class="relative bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-gray-150 my-8">
+                <!-- Nút đóng Modal -->
+                <button id="closeModalBtn" type="button" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition focus:outline-none">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+
+                <div class="text-center mb-4">
+                    <h3 class="text-lg font-black text-gray-900">Your 4EVER Photo Strip</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Pick your favorite frame design and download now!</p>
+                </div>
+
+                <!-- Chọn mẫu khung viền trong modal -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-gray-700">Photo Frame Theme:</span>
+                        <span class="text-[11px] text-brand-pink font-semibold">5 Trending Styles</span>
+                    </div>
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 custom-scrollbar">
+                        <button data-frame="pink-ribbon" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-brand-pink shadow-md flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none" title="Pink Ribbon">
+                            <img src="images/frames/frame_pink_ribbon.jpg" alt="Pink Ribbon" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-black/60 text-[9px] text-white text-center py-0.5 truncate px-1">Pink Ribbon</div>
+                        </button>
+                        <button data-frame="monchhichi" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-pink shadow-sm flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none" title="Monchhichi">
+                            <img src="images/frames/frame_monchhichi.jpg" alt="Monchhichi" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-black/60 text-[9px] text-white text-center py-0.5 truncate px-1">Monchhichi</div>
+                        </button>
+                        <button data-frame="receiptify" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-pink shadow-sm flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none" title="Receiptify">
+                            <img src="images/frames/frame_receiptify.jpg" alt="Receiptify" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-black/60 text-[9px] text-white text-center py-0.5 truncate px-1">Receipt</div>
+                        </button>
+                        <button data-frame="flower-heart" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-pink shadow-sm flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none" title="Flower Heart">
+                            <img src="images/frames/frame_flower_heart.jpg" alt="Flower Heart" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-black/60 text-[9px] text-white text-center py-0.5 truncate px-1">Flower</div>
+                        </button>
+                        <button data-frame="fruit-picnic" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-pink shadow-sm flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none" title="Fruit Picnic">
+                            <img src="images/frames/frame_fruit_picnic.jpg" alt="Fruit Picnic" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-black/60 text-[9px] text-white text-center py-0.5 truncate px-1">Picnic</div>
+                        </button>
+                        <button data-frame="classic" class="frame-style-btn relative w-12 h-16 rounded-xl overflow-hidden border-2 border-gray-200 hover:border-brand-pink shadow-sm flex-shrink-0 transition-transform hover:scale-105 active:scale-95 group focus:outline-none bg-white flex flex-col items-center justify-center text-gray-500" title="Classic White">
+                            <i class="fa-solid fa-square-full text-lg"></i>
+                            <div class="text-[9px] text-gray-600 mt-1">Classic</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dải ảnh hiển thị -->
+                <div class="flex justify-center p-2 mb-5">
+                    <div id="photoStrip" class="relative photo-strip-shadow w-52 rounded-xl overflow-hidden bg-white shadow-xl" style="min-height: 440px;">
+                        <img id="frameBgOverlay" src="images/frames/frame_pink_ribbon.jpg" alt="Frame" class="absolute inset-0 w-full h-full object-fill pointer-events-none z-10" style="mix-blend-mode: multiply;">
+                        <div id="stripPhotosContainer" class="relative z-0 p-2.5 pt-5 pb-10 flex flex-col gap-2">
+                            <div class="aspect-[4/3] bg-white/70 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-inner">Photo 1</div>
+                            <div class="aspect-[4/3] bg-white/70 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-inner">Photo 2</div>
+                            <div class="aspect-[4/3] bg-white/70 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-inner">Photo 3</div>
+                            <div class="aspect-[4/3] bg-white/70 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-inner">Photo 4</div>
+                        </div>
+                        <div class="absolute bottom-2 inset-x-0 z-20 text-center flex flex-col items-center justify-center pointer-events-none">
+                            <span class="text-base font-extrabold tracking-tighter text-black/80 font-sans leading-none">4EVER</span>
+                            <span class="text-[8px] text-gray-600 font-mono mt-0.5" id="stripDateStamp">2026.09.29</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nút Tải về & Chia sẻ -->
+                <div class="flex items-center gap-3">
+                    <button id="downloadStripBtn" type="button" class="flex-1 bg-gray-900 hover:bg-black text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition active:scale-95">
+                        <i class="fa-solid fa-download text-brand-pink"></i>
+                        <span>Download Photo Strip</span>
+                    </button>
+                    <button id="shareStripBtn" type="button" class="bg-rose-50 hover:bg-rose-100 text-brand-pink font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION WHY CHOOSE -->
+        <section class="max-w-6xl mx-auto px-4 py-8 mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Why Choose 4EVER Photo Booth?</h2>
+                <p class="text-gray-500 text-sm mt-2">Experience authentic Korean photobooth vibes directly in your browser — 100% free</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-brand-pink text-xl font-bold mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-lg mb-2">Korean Aesthetic Filters</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">A curated collection of beauty filters that flatter facial tones and deliver radiant studio-quality lighting.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-brand-pink text-xl font-bold mb-4">
+                        <i class="fa-solid fa-border-all"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-lg mb-2">Trending Photo Frames</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Freely personalize trendy Life4Cuts photo strips, from minimalist classic white to viral aesthetic themes.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-brand-pink text-xl font-bold mb-4">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-lg mb-2">Fast Capture & Instant Export</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Smooth automatic countdown timer with instant high-resolution photo strip export ready to share anywhere.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-extrabold tracking-tighter text-white font-sans">4EVER</span>
+                    <span class="text-xs text-gray-500">| Online Photobooth Studio</span>
+                </div>
+                <div class="flex gap-6 text-gray-400">
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-tiktok text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 4EVER Photo Booth. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:underline">Terms of Service</a>
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="#" class="hover:underline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hidden Canvas for Strip Rendering/Downloading -->
+    <canvas id="exportCanvas" class="hidden"></canvas>
+
+    <script>
+        // DOM Elements Initialization
+        const webcamVideo = document.getElementById('webcamVideo');
+        const mockCameraCanvas = document.getElementById('mockCameraCanvas');
+        const startCaptureBtn = document.getElementById('startCaptureBtn');
+        const resetPhotosBtn = document.getElementById('resetPhotosBtn');
+        const countdownOverlay = document.getElementById('countdownOverlay');
+        const countdownNumber = document.getElementById('countdownNumber');
+        const flashOverlay = document.getElementById('flashOverlay');
+        const filterSelect = document.getElementById('filterSelect');
+        const shotsCountSelect = document.getElementById('shotsCountSelect');
+        const stripPhotosContainer = document.getElementById('stripPhotosContainer');
+        const photoStatusText = document.getElementById('photoStatusText');
+        const photoStrip = document.getElementById('photoStrip');
+        const frameBgOverlay = document.getElementById('frameBgOverlay');
+        const downloadStripBtn = document.getElementById('downloadStripBtn');
+        const shareStripBtn = document.getElementById('shareStripBtn');
+        const uploadPhotoInput = document.getElementById('uploadPhotoInput');
+        const stripDateStamp = document.getElementById('stripDateStamp');
+        const toggleCameraModeBtn = document.getElementById('toggleCameraModeBtn');
+        const flipCameraBtn = document.getElementById('flipCameraBtn');
+        const flashToggleBtn = document.getElementById('flashToggleBtn');
+        const camFlashBtn = document.getElementById('camFlashBtn');
+        const flashLabel = document.getElementById('flashLabel');
+
+        // State variables
+        let currentTimer = 3;
+        let requiredShots = 4;
+        let capturedImages = [];
+        let isCapturing = false;
+        let usingRealWebcam = false;
+        let mockAnimFrame = null;
+        let isFlashOn = false;
+        let facingMode = "user";
+
+        // Set Current Date in Strip
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+        stripDateStamp.textContent = formattedDate;
+
+        async function initCamera() {
+            try {
+                if (webcamVideo.srcObject) {
+                    webcamVideo.srcObject.getTracks().forEach(track => track.stop());
+                }
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: { ideal: 1280 }, height: { ideal: 960 }, facingMode: facingMode }, 
+                    audio: false 
+                });
+                webcamVideo.srcObject = stream;
+                webcamVideo.classList.remove('hidden');
+                mockCameraCanvas.classList.add('hidden');
+                usingRealWebcam = true;
+            } catch (err) {
+                console.warn("Webcam access denied or unavailable. Falling back to interactive canvas mode.", err);
+                startMockCamera();
+            }
+        }
+
+        // Animated Fallback Avatar Camera if webcam is not available
+        function startMockCamera() {
+            usingRealWebcam = false;
+            webcamVideo.classList.add('hidden');
+            mockCameraCanvas.classList.remove('hidden');
+
+            const ctx = mockCameraCanvas.getContext('2d');
+            mockCameraCanvas.width = 640;
+            mockCameraCanvas.height = 480;
+
+            let angle = 0;
+            function drawMock() {
+                ctx.fillStyle = '#1e1e2e';
+                ctx.fillRect(0, 0, mockCameraCanvas.width, mockCameraCanvas.height);
+
+                // Animated background pattern
+                angle += 0.02;
+                ctx.fillStyle = '#313244';
+                for(let i=0; i<5; i++) {
+                    let radius = 60 + i * 40 + Math.sin(angle + i) * 10;
+                    ctx.beginPath();
+                    ctx.arc(mockCameraCanvas.width/2, mockCameraCanvas.height/2, radius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(37, 99, 235, ${0.15 - i*0.02})`;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }
+
+                // Avatar Icon Simulation (Chụp đôi 2 bạn nữ)
+                ctx.fillStyle = '#2563eb';
+                ctx.beginPath();
+                ctx.arc(mockCameraCanvas.width/2 - 45, mockCameraCanvas.height/2 - 15, 42, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(mockCameraCanvas.width/2 - 45, mockCameraCanvas.height/2 + 75, 70, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#ff4d8d';
+                ctx.beginPath();
+                ctx.arc(mockCameraCanvas.width/2 + 45, mockCameraCanvas.height/2 - 15, 42, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(mockCameraCanvas.width/2 + 45, mockCameraCanvas.height/2 + 75, 70, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Text overlay
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Demo Camera Mode (Ready to capture)', mockCameraCanvas.width/2, mockCameraCanvas.height - 40);
+
+                mockAnimFrame = requestAnimationFrame(drawMock);
+            }
+            drawMock();
+        }
+
+        // Toggle Timer Selection
+        document.querySelectorAll('.timer-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.timer-btn').forEach(b => {
+                    b.classList.remove('bg-brand-pink', 'text-white');
+                    b.classList.add('bg-white', 'text-gray-700');
+                });
+                e.target.classList.remove('bg-white', 'text-gray-700');
+                e.target.classList.add('bg-brand-pink', 'text-white');
+                currentTimer = parseInt(e.target.getAttribute('data-timer'));
+            });
+        });
+
+        // Filter change listener
+        if (filterSelect) {
+            filterSelect.addEventListener('change', (e) => {
+                const selectedFilter = e.target.value;
+                webcamVideo.className = `w-full h-full object-cover -scale-x-100 transition-all duration-300 ${selectedFilter}`;
+            });
+        }
+
+        // Layout Selector
+        document.querySelectorAll('.layout-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetBtn = e.currentTarget;
+                document.querySelectorAll('.layout-btn').forEach(b => {
+                    b.classList.remove('border-2', 'border-blue-500', 'bg-blue-50/20');
+                    b.classList.add('border', 'border-gray-200', 'bg-white');
+                    const checkIcon = b.querySelector('.fa-circle-check');
+                    if (checkIcon) checkIcon.parentElement.remove();
+                });
+                targetBtn.classList.remove('border-gray-200', 'bg-white');
+                targetBtn.classList.add('border-2', 'border-blue-500', 'bg-blue-50/20');
+
+                // Add check icon
+                const checkDiv = document.createElement('div');
+                checkDiv.className = 'absolute top-1.5 left-1.5 text-blue-600 text-xs';
+                checkDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                targetBtn.prepend(checkDiv);
+
+                const layout = targetBtn.getAttribute('data-layout');
+                if (layout === 'strip-3') {
+                    requiredShots = 3;
+                } else if (layout === 'strip-2-col') {
+                    requiredShots = 2;
+                } else {
+                    requiredShots = 4;
+                }
+                if (shotsCountSelect) shotsCountSelect.value = String(requiredShots);
+                resetStripPlaceholders();
+            });
+        });
+
+        // Toggle Flash
+        function toggleFlash() {
+            isFlashOn = !isFlashOn;
+            if (flashLabel) flashLabel.textContent = isFlashOn ? 'On' : 'Off';
+            const flashIcons = [flashToggleBtn, camFlashBtn];
+            flashIcons.forEach(btn => {
+                if (!btn) return;
+                if (isFlashOn) {
+                    btn.classList.add('text-amber-400');
+                    btn.classList.remove('text-gray-700', 'text-white');
+                } else {
+                    btn.classList.remove('text-amber-400');
+                    if (btn === camFlashBtn) btn.classList.add('text-white');
+                    else btn.classList.add('text-gray-700');
+                }
+            });
+        }
+        if (flashToggleBtn) flashToggleBtn.addEventListener('click', toggleFlash);
+        if (camFlashBtn) camFlashBtn.addEventListener('click', toggleFlash);
+
+        // Flip Camera
+        function flipCamera() {
+            facingMode = facingMode === "user" ? "environment" : "user";
+            initCamera();
+        }
+        if (flipCameraBtn) flipCameraBtn.addEventListener('click', flipCamera);
+
+        // Shots count change listener
+        if (shotsCountSelect) {
+            shotsCountSelect.addEventListener('change', (e) => {
+                requiredShots = parseInt(e.target.value);
+                resetStripPlaceholders();
+            });
+        }
+
+        startCaptureBtn.addEventListener('click', async () => {
+            if (isCapturing) return;
+            isCapturing = true;
+            capturedImages = [];
+            resetStripPlaceholders();
+            startCaptureBtn.disabled = true;
+            startCaptureBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            for (let i = 0; i < requiredShots; i++) {
+                await runCountdown(currentTimer);
+                triggerFlash();
+                const photoDataUrl = captureSinglePhoto();
+                capturedImages.push(photoDataUrl);
+                updateStripUI();
+                
+                // Small pause between photos if multiple
+                if (i < requiredShots - 1) {
+                    await new Promise(res => setTimeout(res, 1000));
+                }
+            }
+
+            isCapturing = false;
+            startCaptureBtn.disabled = false;
+            startCaptureBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Hiển thị modal kết quả dải ảnh
+            const resultModal = document.getElementById('resultModal');
+            if (resultModal) {
+                resultModal.classList.remove('hidden');
+            }
+        });
+
+        const resultModal = document.getElementById('resultModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        if (closeModalBtn && resultModal) {
+            closeModalBtn.addEventListener('click', () => {
+                resultModal.classList.add('hidden');
+            });
+            resultModal.addEventListener('click', (e) => {
+                if (e.target === resultModal) {
+                    resultModal.classList.add('hidden');
+                }
+            });
+        }
+
+        function runCountdown(seconds) {
+            return new Promise((resolve) => {
+                countdownOverlay.classList.remove('hidden');
+                let count = seconds;
+                countdownNumber.textContent = count;
+
+                const timerInterval = setInterval(() => {
+                    count--;
+                    if (count > 0) {
+                        countdownNumber.textContent = count;
+                    } else {
+                        clearInterval(timerInterval);
+                        countdownOverlay.classList.add('hidden');
+                        resolve();
+                    }
+                }, 1000);
+            });
+        }
+
+        function triggerFlash() {
+            flashOverlay.style.opacity = '0.9';
+            setTimeout(() => {
+                flashOverlay.style.opacity = '0';
+            }, 150);
+        }
+
+        function captureSinglePhoto() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 480;
+            const ctx = canvas.getContext('2d');
+
+            // Apply selected filter to canvas context
+            const activeFilter = filterSelect ? filterSelect.value : 'filter-normal';
+            applyFilterToCanvas(ctx, activeFilter);
+
+            if (usingRealWebcam) {
+                // Flip horizontally to match selfie video mirror
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(webcamVideo, 0, 0, canvas.width, canvas.height);
+            } else {
+                // Mock canvas draw with random gradient
+                const colors = [
+                    ['#ff9a9e', '#fecfef'],
+                    ['#a1c4fd', '#c2e9fb'],
+                    ['#ffecd2', '#fcb69f'],
+                    ['#84fab0', '#8fd3f4']
+                ];
+                const pair = colors[capturedImages.length % colors.length];
+                const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                grad.addColorStop(0, pair[0]);
+                grad.addColorStop(1, pair[1]);
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Cute graphic pose placeholder
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 36px "Plus Jakarta Sans", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(`4EVER Pose #${capturedImages.length + 1}`, canvas.width/2, canvas.height/2);
+            }
+
+            return canvas.toDataURL('image/jpeg', 0.9);
+        }
+
+        function applyFilterToCanvas(ctx, filterClass) {
+            switch (filterClass) {
+                case 'filter-vintage':
+                    ctx.filter = 'sepia(0.3) contrast(1.1) brightness(0.9) saturate(1.2)';
+                    break;
+                case 'filter-bw':
+                    ctx.filter = 'grayscale(1) contrast(1.2)';
+                    break;
+                case 'filter-warm':
+                    ctx.filter = 'sepia(0.2) saturate(1.4) hue-rotate(-10deg)';
+                    break;
+                case 'filter-cool':
+                    ctx.filter = 'hue-rotate(30deg) saturate(1.1) brightness(1.05)';
+                    break;
+                case 'filter-glow':
+                    ctx.filter = 'brightness(1.15) contrast(0.95) saturate(1.1)';
+                    break;
+                default:
+                    ctx.filter = 'none';
+            }
+        }
+
+        function resetSupportSlots() {
+            const container = document.getElementById('supportSlotsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group';
+                slot.innerHTML = `<i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i><span class="text-[10px] font-medium text-gray-400">Slot ${i + 1}</span>`;
+                container.appendChild(slot);
+            }
+        }
+
+        function updateSupportSlots() {
+            const container = document.getElementById('supportSlotsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                if (i < capturedImages.length) {
+                    const slot = document.createElement('div');
+                    slot.className = 'support-slot rounded-xl overflow-hidden border border-blue-400 aspect-[4/3] bg-gray-100 shadow-2xs relative group';
+                    slot.innerHTML = `<img src="${capturedImages[i]}" alt="Photo ${i+1}" class="w-full h-full object-cover"><span class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">${i+1}</span>`;
+                    container.appendChild(slot);
+                } else {
+                    const slot = document.createElement('div');
+                    slot.className = 'support-slot rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 aspect-[4/3] flex flex-col items-center justify-center text-gray-400 gap-1 transition hover:border-blue-400 group';
+                    slot.innerHTML = `<i class="fa-regular fa-image text-lg text-gray-300 group-hover:text-blue-400 transition"></i><span class="text-[10px] font-medium text-gray-400">Slot ${i + 1}</span>`;
+                    container.appendChild(slot);
+                }
+            }
+        }
+
+        function resetStripPlaceholders() {
+            stripPhotosContainer.innerHTML = '';
+            for (let i = 0; i < requiredShots; i++) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'aspect-[4/3] bg-white/75 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-xs';
+                placeholder.textContent = `Photo ${i + 1}`;
+                stripPhotosContainer.appendChild(placeholder);
+            }
+            if (photoStatusText) photoStatusText.textContent = `Captured 0/${requiredShots}`;
+            resetSupportSlots();
+        }
+
+        function updateStripUI() {
+            stripPhotosContainer.innerHTML = '';
+            capturedImages.forEach((imgSrc, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'aspect-[4/3] overflow-hidden rounded-lg shadow-sm relative group border border-white/80';
+                
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.className = 'w-full h-full object-cover';
+
+                imgContainer.appendChild(img);
+                stripPhotosContainer.appendChild(imgContainer);
+            });
+
+            // Fill remaining placeholders if capture was stopped early
+            for (let i = capturedImages.length; i < requiredShots; i++) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'aspect-[4/3] bg-white/75 backdrop-blur-xs rounded-lg border-2 border-dashed border-rose-300 flex items-center justify-center text-rose-400 text-xs font-bold shadow-xs';
+                placeholder.textContent = `Photo ${i + 1}`;
+                stripPhotosContainer.appendChild(placeholder);
+            }
+
+            if (photoStatusText) photoStatusText.textContent = `Captured ${capturedImages.length}/${requiredShots}`;
+            updateSupportSlots();
+        }
+
+        // Frame Theme Selector
+        let activeFrameType = 'pink-ribbon';
+        photoStrip.className = 'photo-strip-shadow w-56 p-3 flex flex-col gap-2.5 rounded-lg transition-all duration-300 transform photo-frame-pink-ribbon';
+
+        const frameBgMap = {
+            'pink-ribbon': 'images/frames/frame_pink_ribbon.jpg',
+            'monchhichi': 'images/frames/frame_monchhichi.jpg',
+            'receiptify': 'images/frames/frame_receiptify.jpg',
+            'flower-heart': 'images/frames/frame_flower_heart.jpg',
+            'fruit-picnic': 'images/frames/frame_fruit_picnic.jpg',
+            'classic': null
+        };
+
+        document.querySelectorAll('.frame-style-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetBtn = e.currentTarget;
+                const frameType = targetBtn.getAttribute('data-frame');
+                activeFrameType = frameType;
+
+                // Update active state border
+                document.querySelectorAll('.frame-style-btn').forEach(b => {
+                    b.classList.remove('border-brand-pink', 'shadow-md');
+                    b.classList.add('border-transparent');
+                });
+                targetBtn.classList.remove('border-transparent');
+                targetBtn.classList.add('border-brand-pink', 'shadow-md');
+
+                const frameSrc = frameBgMap[frameType];
+                if (frameSrc) {
+                    frameBgOverlay.src = frameSrc;
+                    frameBgOverlay.classList.remove('hidden');
+                    photoStrip.style.backgroundColor = '#ffffff';
+                } else {
+                    frameBgOverlay.classList.add('hidden');
+                    photoStrip.style.backgroundColor = '#ffffff';
+                }
+            });
+        });
+
+        // Upload custom images from computer
+        if (uploadPhotoInput) {
+            uploadPhotoInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                if (!files.length) return;
+
+                capturedImages = [];
+                let loadedCount = 0;
+
+                files.slice(0, requiredShots).forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        capturedImages.push(event.target.result);
+                        loadedCount++;
+                        if (loadedCount === Math.min(files.length, requiredShots)) {
+                            updateStripUI();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        }
+
+        // Reset All Photos
+        if (resetPhotosBtn) {
+            resetPhotosBtn.addEventListener('click', () => {
+                capturedImages = [];
+                resetStripPlaceholders();
+            });
+        }
+
+        // Toggle Mock Camera Mode manually
+        if (toggleCameraModeBtn) {
+            toggleCameraModeBtn.addEventListener('click', () => {
+                if (usingRealWebcam) {
+                    if (webcamVideo.srcObject) {
+                        webcamVideo.srcObject.getTracks().forEach(track => track.stop());
+                    }
+                    startMockCamera();
+                } else {
+                    initCamera();
+                }
+            });
+        }
+
+        if (downloadStripBtn) {
+            downloadStripBtn.addEventListener('click', () => {
+                if (capturedImages.length === 0) {
+                    alert('Please capture or upload photos before downloading!');
+                    return;
+                }
+
+                const exportCanvas = document.getElementById('exportCanvas');
+                const ctx = exportCanvas.getContext('2d');
+
+                const itemWidth = 600;
+                const itemHeight = 450;
+                const padding = 30;
+                const gap = 20;
+                const footerHeight = 160;
+
+                const totalHeight = padding * 2 + (capturedImages.length * itemHeight) + ((capturedImages.length - 1) * gap) + footerHeight;
+                const totalWidth = itemWidth + (padding * 2);
+
+                exportCanvas.width = totalWidth;
+                exportCanvas.height = totalHeight;
+
+                const frameBgSrc = frameBgMap[activeFrameType];
+
+                // Step 1: White background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, totalWidth, totalHeight);
+
+                // Step 2: Draw photos
+                const drawPhotosFirst = (onDone) => {
+                    let loaded = 0;
+                    if (capturedImages.length === 0) { onDone(); return; }
+                    capturedImages.forEach((src, idx) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            const yPos = padding + idx * (itemHeight + gap);
+                            ctx.save();
+                            ctx.shadowColor = "rgba(0,0,0,0.18)";
+                            ctx.shadowBlur = 10;
+                            ctx.drawImage(img, padding, yPos, itemWidth, itemHeight);
+                            ctx.restore();
+                            loaded++;
+                            if (loaded === capturedImages.length) onDone();
+                        };
+                        img.onerror = () => { loaded++; if (loaded === capturedImages.length) onDone(); };
+                        img.src = src;
+                    });
+                };
+
+                // Step 3: Draw frame on top with multiply blend
+                const drawFrameOnTop = (onDone) => {
+                    if (!frameBgSrc) { onDone(); return; }
+                    const bgImg = new Image();
+                    bgImg.onload = () => {
+                        ctx.save();
+                        ctx.globalCompositeOperation = 'multiply';
+                        ctx.drawImage(bgImg, 0, 0, totalWidth, totalHeight);
+                        ctx.restore();
+                        onDone();
+                    };
+                    bgImg.onerror = () => onDone();
+                    bgImg.src = frameBgSrc;
+                };
+
+                // Step 4: Draw branding footer
+                const drawFooter = () => {
+                    const footerY = totalHeight - footerHeight + 20;
+                    ctx.fillStyle = '#111827';
+                    ctx.textAlign = 'center';
+                    ctx.font = 'bold 52px "Plus Jakarta Sans", sans-serif';
+                    ctx.fillText('4EVER', totalWidth / 2, footerY + 40);
+                    ctx.font = 'italic 22px "Playfair Display", serif';
+                    ctx.fillText('Sweet Memories • Photo Booth', totalWidth / 2, footerY + 75);
+                    ctx.font = '20px monospace';
+                    ctx.fillStyle = '#666666';
+                    ctx.fillText(formattedDate, totalWidth / 2, footerY + 110);
+
+                    const link = document.createElement('a');
+                    link.download = `4EVER-photobooth-${activeFrameType}-${Date.now()}.png`;
+                    link.href = exportCanvas.toDataURL('image/png');
+                    link.click();
+                };
+
+                drawPhotosFirst(() => {
+                    drawFrameOnTop(() => {
+                        drawFooter();
+                    });
+                });
+            });
+        }
+
+        // Share Link Mock
+        if (shareStripBtn) {
+            shareStripBtn.addEventListener('click', () => {
+                if (capturedImages.length === 0) {
+                    alert('No photos to share yet! Take some nice photos first.');
+                    return;
+                }
+                navigator.clipboard.writeText(window.location.href);
+                alert('4EVER Photo Booth link copied to clipboard!');
+            });
+        }
+
+        // Initialize Camera on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initCamera();
+            resetStripPlaceholders();
+        });
+    </script>
+</body>
+</html>

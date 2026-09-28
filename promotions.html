@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions &amp; Exclusive Deals | 4EVER Photo Booth</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#ff4d8d',
+                            pinkHover: '#e63977',
+                            lightPink: '#fff0f5',
+                            dark: '#111827',
+                            red: '#8B1E24',
+                            darkred: '#631015',
+                            cream: '#FFF8F0',
+                            sand: '#F7EBE1',
+                            gold: '#D4AF37',
+                            orange: '#D96B43',
+                            brown: '#4A2E2B'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFF8F0;
+            color: #4A2E2B;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom Glowing & Floating Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.03); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite;
+        }
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        /* Ribbon badge */
+        .ribbon {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            transform: rotate(45deg);
+            width: 120px;
+            background: #8B1E24;
+            color: white;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-brand-cream text-brand-brown min-h-screen flex flex-col antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Global Header Navigation (4EVER Design System) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Nav Links -->
+            <div class="flex items-center gap-8">
+                <a href="index.htm" class="flex items-center gap-2 group">
+                    <span class="text-3xl font-extrabold tracking-tighter text-black group-hover:text-brand-pink transition-colors font-sans">
+                        4EVER
+                    </span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="index.htm" class="hover:text-brand-pink transition">Home</a>
+                    <a href="about.htm" class="hover:text-brand-pink transition">About Us</a>
+
+                    <!-- Product/Service Dropdown -->
+                    <div class="relative group cursor-pointer py-4">
+                        <a href="products.htm" class="flex items-center gap-1.5 hover:text-brand-pink transition font-medium">
+                            <span>Product / Service</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-400 group-hover:text-brand-pink group-hover:rotate-180 transition-transform duration-200"></i>
+                        </a>
+                        
+                        <!-- Dropdown Menu Box -->
+                        <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                            <div class="w-64 bg-white rounded-2xl shadow-xl border border-rose-100/80 p-2 overflow-hidden backdrop-blur-md">
+                                <a href="products.htm#main-features" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-100/60 text-brand-pink flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Main features</div>
+                                        <div class="text-[11px] text-gray-400">Core system features</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="products.htm#benefits" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-100/60 text-purple-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Product/service benefits</div>
+                                        <div class="text-[11px] text-gray-400">Key customer benefits</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#target-customers" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Target customers</div>
+                                        <div class="text-[11px] text-gray-400">Target audience profiles</div>
+                                    </div>
+                                </a>
+
+                                <a href="products.htm#unique-characteristics" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Unique characteristics</div>
+                                        <div class="text-[11px] text-gray-400">Signature USP &amp; highlights</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="promotions.htm" class="text-brand-pink font-semibold hover:text-brand-pink transition">
+                        Promotions
+                    </a>
+                    <a href="places.htm" class="hover:text-brand-pink transition">
+                        Places of Distribution
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-3">
+                <a href="index.htm#photoboothApp" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-xs font-bold shadow-md hover:shadow-lg transition">
+                    <i class="fa-solid fa-camera text-brand-pink"></i>
+                    <span>Capture now</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- ============================================================ -->
+        <!-- 1. HERO BANNER SECTION (Autumn Appreciation Campaign)        -->
+        <!-- ============================================================ -->
+        <section class="relative overflow-hidden py-12 md:py-20 bg-gradient-to-b from-brand-sand/50 to-brand-cream">
+            <!-- Decorative Elements -->
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-orange/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute top-1/2 -right-10 w-60 h-60 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Content -->
+                    <div class="lg:col-span-7 text-center lg:text-left">
+                        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/15 text-brand-darkred text-xs md:text-sm font-semibold mb-6 border border-brand-orange/30">
+                            <i class="fa-solid fa-fire text-brand-orange"></i> Autumn Customer Appreciation Campaign
+                        </span>
+
+                        <h1 class="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-darkred leading-tight mb-6">
+                            "Capture" <br>
+                            <span class="text-brand-orange italic font-normal">Your Brightest Moments</span>
+                        </h1>
+
+                        <p class="text-lg md:text-xl text-brand-brown/80 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans">
+                            Cherish vibrant memories with your loved ones and best friends. Enjoy the biggest seasonal promotional discounts of the year at <span class="font-bold text-brand-red">4EVER Photo Booth</span>!
+                        </p>
+
+                        <!-- COUNTDOWN TIMER CONTAINER -->
+                        <div class="mb-10 p-6 glass-card rounded-2xl shadow-xl max-w-md mx-auto lg:mx-0 border-l-4 border-l-brand-red">
+                            <div class="text-xs uppercase tracking-wider font-bold text-brand-brown/70 mb-3 text-center lg:text-left flex items-center justify-center lg:justify-start gap-2">
+                                <i class="fa-regular fa-clock text-brand-red"></i> SPECIAL OFFER ENDS IN:
+                            </div>
+                            <div class="grid grid-cols-4 gap-3 text-center" id="countdown">
+                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
+                                    <span id="days" class="font-bold text-2xl md:text-3xl font-mono block">02</span>
+                                    <span class="text-[10px] uppercase opacity-80 font-mono">DAYS</span>
+                                </div>
+                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
+                                    <span id="hours" class="font-bold text-2xl md:text-3xl font-mono block">14</span>
+                                    <span class="text-[10px] uppercase opacity-80 font-mono">HOURS</span>
+                                </div>
+                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
+                                    <span id="minutes" class="font-bold text-2xl md:text-3xl font-mono block">45</span>
+                                    <span class="text-[10px] uppercase opacity-80 font-mono">MINUTES</span>
+                                </div>
+                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
+                                    <span id="seconds" class="font-bold text-2xl md:text-3xl font-mono block">30</span>
+                                    <span class="text-[10px] uppercase opacity-80 font-mono">SECONDS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call to action buttons -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <button onclick="openBookingModal()" class="w-full sm:w-auto bg-brand-red hover:bg-brand-darkred text-white text-base font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1 flex items-center justify-center gap-3 group">
+                                <span>Claim Discount Voucher</span>
+                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                            <a href="#offers" class="w-full sm:w-auto bg-white border border-brand-sand hover:bg-brand-sand/50 text-brand-brown text-base font-medium px-6 py-4 rounded-xl text-center transition-all">
+                                Explore Photo Packages
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Visual Display (Autumn Poster Artwork) -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/40 transform hover:scale-[1.01] transition-transform duration-500 bg-brand-darkred">
+                                <img src="images/autumn_promo_poster.jpg" alt="Autumn Promotion Special Campaign" class="w-full h-auto object-cover rounded-3xl">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 2. PRICING & DISCOUNTS SECTION                               -->
+        <!-- ============================================================ -->
+        <section id="offers" class="py-16 md:py-24 bg-white relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-brand-orange font-semibold text-sm tracking-wider uppercase">PROMOTIONAL PRICING PACKAGES</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-brand-darkred mt-2 mb-4">Best-Selling Photo Booth Packages</h2>
+                    <div class="w-20 h-1 bg-brand-red mx-auto rounded-full mb-4"></div>
+                    <p class="text-brand-brown/70 font-sans">Choose the ideal package for your session and secure your exclusive discount voucher today</p>
+                </div>
+
+                <!-- PRICING CARDS GRID -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+                    
+                    <!-- CARD 1: Couple & Besties Session -->
+                    <div class="bg-brand-cream/40 rounded-3xl p-8 border-2 border-brand-sand relative flex flex-col justify-between hover:border-brand-orange transition-all duration-300 hover:shadow-xl group">
+                        <div class="ribbon bg-brand-orange">HOT DEAL</div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-widest text-brand-orange mb-2">Standard Package</div>
+                            <h3 class="font-playfair text-2xl font-bold text-brand-brown mb-3">Couple &amp; Besties</h3>
+                            <p class="text-sm text-gray-600 mb-6 font-sans">Perfect for 2–3 friends or couples capturing milestones, student keepsakes, or mini lookbooks.</p>
+                            
+                            <!-- Price section -->
+                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white border border-brand-sand">
+                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-red font-sans">50K</span>
+                                <span class="text-lg text-gray-400 line-through font-semibold font-sans">70K</span>
+                                <span class="ml-auto text-xs bg-red-100 text-brand-red px-2.5 py-1 rounded-full font-bold">Save 20K</span>
+                            </div>
+
+                            <!-- Features list -->
+                            <ul class="space-y-3 text-sm text-brand-brown/80 mb-8 font-sans">
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>1 Signature 4-cut photo strip keepsake</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Complimentary autumn &amp; festive props access</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Signature studio color grading &amp; skin tone presets</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Instant high-res digital copy &amp; QR code download</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button onclick="openBookingModal('Couple & Besties Package (50K)')" class="w-full bg-white hover:bg-brand-orange hover:text-white text-brand-brown border-2 border-brand-orange py-3.5 rounded-xl font-bold transition-all text-center shadow-sm">
+                            Claim 50K Offer
+                        </button>
+                    </div>
+
+                    <!-- CARD 2: Photobook Autumn Special (BESTSELLER) -->
+                    <div class="bg-gradient-to-b from-brand-darkred to-brand-red text-white rounded-3xl p-8 relative flex flex-col justify-between shadow-2xl border-2 border-brand-gold transform lg:-translate-y-3">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-darkred font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                            <i class="fa-solid fa-crown mr-1"></i> RECOMMENDED
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2 mt-2">Most Popular Package</div>
+                            <h3 class="font-playfair text-2xl font-bold text-white mb-3">Photobook Autumn Special</h3>
+                            <p class="text-sm text-white/80 mb-6 font-sans">Premium folding keepsake envelope card album with elegant autumn-themed envelope styling.</p>
+                            
+                            <!-- Price section -->
+                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-gold font-sans">80K</span>
+                                <span class="text-lg text-white/50 line-through font-semibold font-sans">100K</span>
+                                <span class="ml-auto text-xs bg-brand-gold text-brand-darkred px-2.5 py-1 rounded-full font-bold">20% OFF</span>
+                            </div>
+
+                            <!-- Features list -->
+                            <ul class="space-y-3 text-sm text-white/90 mb-8 font-sans">
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+                                    <span>Bespoke folding keepsake card "From My Corner"</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+                                    <span>2 Printed photo strips + 1 Framed keepsake card photo</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+                                    <span>Full access to custom studio lighting &amp; digital backdrops</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+                                    <span>Complimentary luxury velvet red envelope &amp; silk ribbon</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+                                    <span>Full HD digital photos + live shooting GIF / Boomerang</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button onclick="openBookingModal('Photobook Autumn Special (80K)')" class="w-full bg-brand-gold hover:bg-yellow-400 text-brand-darkred py-3.5 rounded-xl font-bold transition-all text-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                            Book 80K Package
+                        </button>
+                    </div>
+
+                    <!-- CARD 3: Party & Squad Session -->
+                    <div class="bg-brand-cream/40 rounded-3xl p-8 border-2 border-brand-sand relative flex flex-col justify-between hover:border-brand-orange transition-all duration-300 hover:shadow-xl group">
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-widest text-brand-orange mb-2">Group &amp; Party Package</div>
+                            <h3 class="font-playfair text-2xl font-bold text-brand-brown mb-3">Party &amp; Squad Session</h3>
+                            <p class="text-sm text-gray-600 mb-6 font-sans">Designed for groups of 4–6 friends for graduations, birthday bashes, or team bonding.</p>
+                            
+                            <!-- Price section -->
+                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white border border-brand-sand">
+                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-red font-sans">120K</span>
+                                <span class="text-lg text-gray-400 line-through font-semibold font-sans">160K</span>
+                                <span class="ml-auto text-xs bg-red-100 text-brand-red px-2.5 py-1 rounded-full font-bold">25% OFF</span>
+                            </div>
+
+                            <!-- Features list -->
+                            <ul class="space-y-3 text-sm text-brand-brown/80 mb-8 font-sans">
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>1 Individual printed photo strip for every member</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Unlimited shooting poses &amp; takes per session</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Guided posing prompts &amp; exclusive themed concept props</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
+                                    <span>Complete package of original high-resolution digital files</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button onclick="openBookingModal('Party & Squad Package (120K)')" class="w-full bg-white hover:bg-brand-orange hover:text-white text-brand-brown border-2 border-brand-orange py-3.5 rounded-xl font-bold transition-all text-center shadow-sm">
+                            Claim Group Offer
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Footer (4EVER Design System) -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-extrabold tracking-tighter text-white font-sans">4EVER</span>
+                    <span class="text-xs text-gray-500">| Online Photobooth Studio</span>
+                </div>
+                <div class="flex gap-6 text-gray-400">
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-tiktok text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 4EVER Photo Booth. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:underline">Terms of Service</a>
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="#" class="hover:underline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOOKING / VOUCHER MODAL -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl border border-brand-gold/30">
+            <!-- Close button -->
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-brand-red text-xl focus:outline-none">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-brand-cream rounded-full flex items-center justify-center mx-auto mb-2 text-brand-red text-xl">
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+                <h3 class="font-playfair text-2xl font-bold text-brand-darkred">Claim Your Exclusive Offer</h3>
+                <p class="text-xs text-gray-500 mt-1 font-sans">Reserve your promo discount code and secure priority booth time</p>
+            </div>
+
+            <!-- Form -->
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)" class="space-y-4 font-sans">
+                <div>
+                    <label class="block text-xs font-bold text-brand-brown uppercase mb-1">Full Name *</label>
+                    <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-brand-brown uppercase mb-1">Phone Number / WhatsApp *</label>
+                    <input type="tel" required placeholder="+84 901 234 567" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-brand-brown uppercase mb-1">Select Package Deal</label>
+                    <select id="packageSelect" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none text-sm">
+                        <option value="Couple & Besties Package (50K)">Couple &amp; Besties Package - 50,000 VND (Regular 70K)</option>
+                        <option value="Photobook Autumn Special (80K)" selected>Photobook Autumn Special - 80,000 VND (Regular 100K)</option>
+                        <option value="Party & Squad Package (120K)">Party &amp; Squad Package - 120,000 VND (Regular 160K)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-brand-brown uppercase mb-1">Preferred Session Date</label>
+                    <input type="date" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none text-sm">
+                </div>
+
+                <button type="submit" class="w-full bg-brand-red hover:bg-brand-darkred text-white py-3.5 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all mt-2 text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> CONFIRM BOOKING &amp; VOUCHER
+                </button>
+            </form>
+
+            <!-- Success Notification Message (Hidden by default) -->
+            <div id="successMsg" class="hidden text-center py-6 font-sans">
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2">Reservation Confirmed!</h4>
+                <p class="text-sm text-gray-600 mb-6">Your voucher discount code has been reserved. Our 4EVER Photo Booth specialist will contact you shortly to confirm your session.</p>
+                <button onclick="closeBookingModal()" class="bg-brand-brown text-white px-6 py-2 rounded-xl text-sm font-semibold">Close Window</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Controls
+        function openBookingModal(packageName = null) {
+            const modal = document.getElementById('bookingModal');
+            const packageSelect = document.getElementById('packageSelect');
+            if (packageName && packageSelect) {
+                packageSelect.value = packageName;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.add('hidden');
+            document.getElementById('bookingForm').classList.remove('hidden');
+            document.getElementById('successMsg').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('bookingForm').classList.add('hidden');
+            document.getElementById('successMsg').classList.remove('hidden');
+        }
+
+        // Countdown Timer Logic
+        function startCountdown() {
+            const targetDate = new Date().getTime() + (2 * 24 * 60 * 60 * 1000) + (13 * 60 * 60 * 1000) + (59 * 60 * 1000);
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const difference = targetDate - now;
+
+                if (difference > 0) {
+                    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').innerText = String(days).padStart(2, '0');
+                    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                }
+            }, 1000);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            startCountdown();
+        };
+    </script>
+</body>
+</html>

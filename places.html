@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places of Distribution | 4EVER Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#ff4d8d',
+                            pinkHover: '#e63977',
+                            lightPink: '#fff0f5',
+                            dark: '#111827',
+                            mint: '#e6fbf4',
+                            mintBorder: '#b3ebd9',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Hide scrollbar but keep scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Custom thin scrollbar for sidebar */
+        .thin-scrollbar::-webkit-scrollbar { width: 4px; }
+        .thin-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .thin-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 99px; }
+        .thin-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
+        /* Leaflet overrides */
+        .leaflet-container { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .leaflet-popup-content-wrapper {
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+            border: 1px solid #f3f4f6;
+            padding: 0;
+            overflow: hidden;
+        }
+        .leaflet-popup-content { margin: 0 !important; width: 220px !important; }
+        .leaflet-popup-tip-container { display: none; }
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+        }
+        .leaflet-control-zoom a {
+            width: 36px !important;
+            height: 36px !important;
+            line-height: 36px !important;
+            font-size: 16px !important;
+            color: #374151 !important;
+            background: white !important;
+        }
+        .leaflet-control-zoom a:hover { background: #f9fafb !important; color: #ff4d8d !important; }
+        .leaflet-control-attribution { display: none !important; }
+
+        /* Branch card hover */
+        .branch-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .branch-card:hover { background: #fff0f5; border-color: #fda4c5 !important; }
+        .branch-card.active { background: #fff0f5; border-color: #ff4d8d !important; box-shadow: 0 0 0 3px rgba(255,77,141,0.1); }
+
+        /* Search highlight */
+        .search-hidden { display: none !important; }
+
+        /* Pulse animation for active dot */
+        @keyframes ping-pink {
+            75%, 100% { transform: scale(1.8); opacity: 0; }
+        }
+        .ping-pink { animation: ping-pink 1.5s cubic-bezier(0,0,0.2,1) infinite; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans antialiased selection:bg-brand-pink selection:text-white flex flex-col min-h-screen">
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Nav -->
+            <div class="flex items-center gap-8">
+                <a href="index.htm" class="flex items-center gap-2 group">
+                    <span class="text-3xl font-extrabold tracking-tighter text-black group-hover:text-brand-pink transition-colors font-sans">4EVER</span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="index.htm" class="hover:text-brand-pink transition">Home</a>
+                    <a href="about.htm" class="hover:text-brand-pink transition">About Us</a>
+
+                    <!-- Product/Service Dropdown -->
+                    <div class="relative group cursor-pointer py-4">
+                        <a href="products.htm" class="flex items-center gap-1.5 hover:text-brand-pink transition font-medium">
+                            <span>Product / Service</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-400 group-hover:text-brand-pink group-hover:rotate-180 transition-transform duration-200"></i>
+                        </a>
+                        <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+                            <div class="w-64 bg-white rounded-2xl shadow-xl border border-rose-100/80 p-2 overflow-hidden backdrop-blur-md">
+                                <a href="products.htm#main-features" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-100/60 text-brand-pink flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Main features</div>
+                                        <div class="text-[11px] text-gray-400">Các tính năng chính</div>
+                                    </div>
+                                </a>
+                                <a href="products.htm#benefits" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-100/60 text-purple-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform"><i class="fa-solid fa-gift"></i></div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Product/service benefits</div>
+                                        <div class="text-[11px] text-gray-400">Lợi ích sản phẩm & dịch vụ</div>
+                                    </div>
+                                </a>
+                                <a href="products.htm#target-customers" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100/60 text-blue-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform"><i class="fa-solid fa-users"></i></div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Target customers</div>
+                                        <div class="text-[11px] text-gray-400">Khách hàng mục tiêu</div>
+                                    </div>
+                                </a>
+                                <a href="products.htm#unique-characteristics" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-rose-50/70 text-gray-700 hover:text-brand-pink transition group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100/60 text-amber-600 flex items-center justify-center text-sm group-hover/item:scale-110 transition-transform"><i class="fa-solid fa-star"></i></div>
+                                    <div>
+                                        <div class="font-semibold text-xs text-gray-900 group-hover/item:text-brand-pink">Unique or attractive characteristics</div>
+                                        <div class="text-[11px] text-gray-400">Đặc điểm độc đáo & thu hút</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="promotions.htm" class="hover:text-brand-pink transition">Promotions</a>
+                    <a href="places.htm" class="text-brand-pink font-semibold hover:text-brand-pink transition">Places of Distribution</a>
+                </nav>
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-3">
+                <a href="index.htm#booth" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-5 py-2 rounded-full text-xs font-bold shadow-md hover:shadow-lg transition">
+                    <i class="fa-solid fa-camera text-brand-pink"></i>
+                    <span>Capture now</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- ================== END HEADER ================== -->
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="flex-grow flex flex-col" style="height: calc(100vh - 64px); overflow: hidden;">
+
+        <!-- Top Bar -->
+        <div class="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between gap-4 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    <input
+                        id="globalSearch"
+                        type="text"
+                        placeholder="Search branch, city or ID..."
+                        class="pl-9 pr-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-pink/30 focus:border-brand-pink w-72 transition"
+                        oninput="handleGlobalSearch(this.value)"
+                    />
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs text-gray-500 font-medium">4EVER Photobooth</span>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-pink to-rose-400 flex items-center justify-center text-white text-xs font-bold shadow">
+                    4E
+                </div>
+            </div>
+        </div>
+
+        <!-- 2-Column Layout -->
+        <div class="flex flex-1 overflow-hidden">
+
+            <!-- ===== LEFT SIDEBAR ===== -->
+            <div class="w-[360px] shrink-0 flex flex-col bg-gray-50 border-r border-gray-100 overflow-hidden">
+
+                <!-- Find Chain Store Card -->
+                <div class="p-4 shrink-0">
+                    <div class="bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-50 border border-rose-100 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-7 h-7 rounded-lg bg-brand-pink/10 flex items-center justify-center">
+                                <i class="fa-solid fa-location-dot text-brand-pink text-xs"></i>
+                            </div>
+                            <span class="text-sm font-bold text-gray-800">Find Chain Store</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <input
+                                id="storeCodeInput"
+                                type="text"
+                                placeholder="Enter store ID (e.g. 4EVER-0102)"
+                                class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-brand-pink/30 focus:border-brand-pink transition"
+                                oninput="handleStoreSearch(this.value)"
+                                onkeydown="if(event.key==='Enter') jumpToStoreCode(this.value)"
+                            />
+                            <button onclick="jumpToStoreCode(document.getElementById('storeCodeInput').value)" class="w-9 h-9 rounded-xl bg-brand-pink hover:bg-brand-pinkHover text-white flex items-center justify-center shadow transition shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Branch Detail Card -->
+                <div class="px-4 pb-3 shrink-0" id="detailCard">
+                    <div class="bg-white border-2 border-brand-pink rounded-2xl p-4 shadow-sm">
+                        <!-- Header row -->
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span id="detail-code" class="text-[10px] font-bold text-gray-400 tracking-widest uppercase">4EVER-0102</span>
+                                    <span id="detail-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Open Now</span>
+                                </div>
+                                <h3 id="detail-name" class="text-sm font-bold text-gray-900 leading-tight">Thủ Đức Branch</h3>
+                                <p id="detail-address" class="text-xs text-gray-500 mt-0.5">Khu đô thị ĐHQG, Phường Linh Trung, Thủ Đức</p>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-pink to-rose-400 flex items-center justify-center text-white font-extrabold text-xs shrink-0 shadow">4E</div>
+                        </div>
+
+                        <!-- Info row -->
+                        <div class="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-clock text-brand-pink"></i> <span id="detail-hours">8:00 AM – 10:00 PM</span></span>
+                            <span class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span id="detail-rating" class="font-semibold text-gray-700">4.9</span>
+                            </span>
+                        </div>
+
+                        <!-- Manager row -->
+                        <div class="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-[10px] font-bold shrink-0">M</div>
+                            <div>
+                                <div class="text-[10px] text-gray-400">Branch Manager</div>
+                                <div id="detail-manager" class="text-xs font-semibold text-gray-700">Nguyễn Minh Tuấn</div>
+                            </div>
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="flex gap-2">
+                            <button id="detail-directions-btn" onclick="drawRoute(activeIdx)"
+                               class="flex-1 flex items-center justify-center gap-1.5 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-semibold py-2.5 rounded-xl transition shadow-sm">
+                                <i class="fa-solid fa-diamond-turn-right text-[11px]"></i> Get Directions
+                            </button>
+                            <button id="detail-share-btn" onclick="shareLocation()"
+                                class="w-10 h-10 shrink-0 flex items-center justify-center bg-gray-100 hover:bg-rose-50 hover:text-brand-pink text-gray-500 rounded-xl transition">
+                                <i class="fa-solid fa-share-nodes text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branch List Header -->
+                <div class="px-4 py-2 shrink-0 flex items-center justify-between">
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">All Branches</span>
+                    <span class="text-xs text-gray-400" id="branchCount">5 stores</span>
+                </div>
+
+                <!-- Scrollable Branch List -->
+                <div class="flex-1 overflow-y-auto thin-scrollbar px-4 pb-4 flex flex-col gap-2" id="branchList">
+
+                    <!-- Branch 0102 -->
+                    <div class="branch-card active bg-white border-2 border-brand-pink rounded-2xl p-3.5 shadow-sm" data-idx="0" onclick="selectBranch(0)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-pink-50 border border-rose-100 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-camera text-brand-pink text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-xs font-bold text-gray-800 truncate">Thủ Đức Branch</span>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 shrink-0">Open</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 truncate">Linh Trung, Thủ Đức</div>
+                                <div class="text-[10px] text-gray-300 font-mono mt-0.5">4EVER-0102</div>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span class="text-xs font-semibold text-gray-600">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch 0205 -->
+                    <div class="branch-card bg-white border border-gray-100 rounded-2xl p-3.5 shadow-sm" data-idx="1" onclick="selectBranch(1)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-camera text-gray-400 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-xs font-bold text-gray-800 truncate">District 1 Branch</span>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 shrink-0">Open</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 truncate">Quận 1, TP.HCM</div>
+                                <div class="text-[10px] text-gray-300 font-mono mt-0.5">4EVER-0205</div>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span class="text-xs font-semibold text-gray-600">4.8</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch 0310 -->
+                    <div class="branch-card bg-white border border-gray-100 rounded-2xl p-3.5 shadow-sm" data-idx="2" onclick="selectBranch(2)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-camera text-gray-400 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-xs font-bold text-gray-800 truncate">Bình Thạnh Branch</span>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 shrink-0">Busy</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 truncate">Bình Thạnh, TP.HCM</div>
+                                <div class="text-[10px] text-gray-300 font-mono mt-0.5">4EVER-0310</div>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span class="text-xs font-semibold text-gray-600">4.7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch 0415 -->
+                    <div class="branch-card bg-white border border-gray-100 rounded-2xl p-3.5 shadow-sm" data-idx="3" onclick="selectBranch(3)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-camera text-gray-400 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-xs font-bold text-gray-800 truncate">District 10 Branch</span>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 shrink-0">Open</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 truncate">Quận 10, TP.HCM</div>
+                                <div class="text-[10px] text-gray-300 font-mono mt-0.5">4EVER-0415</div>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
+                                <span class="text-xs font-semibold text-gray-600">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch 0520 -->
+                    <div class="branch-card bg-white border border-gray-100 rounded-2xl p-3.5 shadow-sm" data-idx="4" onclick="selectBranch(4)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-camera text-gray-400 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-xs font-bold text-gray-800 truncate">Tân Phú Branch</span>
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500 shrink-0">Soon</span>
+                                </div>
+                                <div class="text-[11px] text-gray-400 truncate">Tân Phú, TP.HCM</div>
+                                <div class="text-[10px] text-gray-300 font-mono mt-0.5">4EVER-0520</div>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-star text-gray-300 text-[10px]"></i>
+                                <span class="text-xs font-semibold text-gray-400">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ===== END LEFT SIDEBAR ===== -->
+
+            <!-- ===== RIGHT MAP ===== -->
+            <div class="flex-1 relative bg-gray-100">
+                <!-- Map: Google Maps Embed iframe -->
+                <iframe
+                    id="mapFrame"
+                    src="https://maps.google.com/maps?q=10.8700,106.8030&z=14&output=embed&hl=en"
+                    class="absolute inset-0 w-full h-full border-0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <!-- Badge: Active Stores -->
+                <div class="absolute top-4 left-4 z-20 pointer-events-none">
+                    <div class="flex items-center gap-2 bg-white/90 backdrop-blur-md border border-gray-100 rounded-2xl px-4 py-2 shadow-lg">
+                        <div class="relative w-2.5 h-2.5">
+                            <div class="absolute inset-0 rounded-full bg-emerald-400 opacity-75 ping-pink"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                        </div>
+                        <span class="text-xs font-bold text-gray-800">5 Active Stores Online</span>
+                    </div>
+                </div>
+
+                <!-- Route Loading Spinner -->
+                <div id="routeLoading" class="hidden absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl px-6 py-4 shadow-xl border border-gray-100 flex items-center gap-3">
+                        <svg class="animate-spin w-5 h-5 text-brand-pink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span class="text-sm font-semibold text-gray-700">Finding best route...</span>
+                    </div>
+                </div>
+
+                <!-- Route Info Panel (bottom center of map) -->
+                <div id="routeInfoPanel" class="hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
+                    <div class="flex items-center gap-3 bg-white/95 backdrop-blur-md border border-gray-100 rounded-2xl px-5 py-3 shadow-xl">
+                        <!-- Distance -->
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-xl bg-brand-pink/10 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-road text-brand-pink text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-medium">Distance</div>
+                                <div id="routeDistance" class="text-sm font-extrabold text-gray-900">—</div>
+                            </div>
+                        </div>
+
+                        <div class="w-px h-8 bg-gray-200 shrink-0"></div>
+
+                        <!-- Duration -->
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                                <i class="fa-regular fa-clock text-blue-500 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-medium">Est. Time</div>
+                                <div id="routeDuration" class="text-sm font-extrabold text-gray-900">—</div>
+                            </div>
+                        </div>
+
+                        <div class="w-px h-8 bg-gray-200 shrink-0"></div>
+
+                        <!-- Open in Google Maps -->
+                        <a id="routeOpenMaps" href="#" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center gap-1.5 text-xs font-semibold text-brand-pink hover:text-brand-pinkHover transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Open Maps
+                        </a>
+
+                        <div class="w-px h-8 bg-gray-200 shrink-0"></div>
+
+                        <!-- Clear route -->
+                        <button onclick="clearRoute()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-red-50 hover:text-red-500 text-gray-400 flex items-center justify-center transition text-xs" title="Clear route">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== END RIGHT MAP ===== -->
+
+        </div>
+    </main>
+    <!-- ================== END MAIN ================== -->
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl font-extrabold text-white tracking-tighter">4EVER</span>
+                        <span class="w-2 h-2 rounded-full bg-brand-pink animate-pulse"></span>
+                    </div>
+                    <p class="text-sm leading-relaxed">Capturing your most precious moments with style and elegance.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.htm" class="hover:text-white hover:text-brand-pink transition">Home</a></li>
+                        <li><a href="about.htm" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="products.htm" class="hover:text-white transition">Products</a></li>
+                        <li><a href="promotions.htm" class="hover:text-white transition">Promotions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Locations -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Our Locations</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-brand-pink mt-0.5 text-xs shrink-0"></i> Thủ Đức, TP.HCM</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-brand-pink mt-0.5 text-xs shrink-0"></i> Quận 1, TP.HCM</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-brand-pink mt-0.5 text-xs shrink-0"></i> Bình Thạnh, TP.HCM</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-brand-pink mt-0.5 text-xs shrink-0"></i> Quận 10, TP.HCM</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-gray-600 mt-0.5 text-xs shrink-0"></i> <span class="text-gray-600">Tân Phú — Coming Soon</span></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-phone text-brand-pink text-xs"></i> +84 90 123 4567</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-brand-pink text-xs"></i> hello@4everphotobooth.vn</li>
+                        <li class="flex items-center gap-2"><i class="fa-brands fa-instagram text-brand-pink text-xs"></i> @4everphotobooth</li>
+                    </ul>
+                    <div class="flex items-center gap-3 mt-5">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand-pink flex items-center justify-center transition"><i class="fa-brands fa-facebook-f text-xs text-white"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand-pink flex items-center justify-center transition"><i class="fa-brands fa-instagram text-xs text-white"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand-pink flex items-center justify-center transition"><i class="fa-brands fa-tiktok text-xs text-white"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
+                <span>© 2025 4EVER Photobooth. All rights reserved.</span>
+                <span class="flex items-center gap-1">Made with <i class="fa-solid fa-heart text-brand-pink text-[10px]"></i> in Ho Chi Minh City</span>
+            </div>
+        </div>
+    </footer>
+    <!-- ================== END FOOTER ================== -->
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // =========================================================
+        //  DATA: 5 Chi nhánh 4EVER
+        // =========================================================
+        const branches = [
+            {
+                idx: 0,
+                code: '4EVER-0102',
+                name: 'Thủ Đức Branch',
+                district: 'Linh Trung, Thủ Đức',
+                address: 'Khu đô thị ĐHQG, Phường Linh Trung, Thủ Đức, TP.HCM',
+                lat: 10.8700, lng: 106.8030,
+                status: 'Open Now',
+                statusClass: 'bg-emerald-100 text-emerald-700',
+                hours: '8:00 AM – 10:00 PM',
+                rating: '4.9',
+                manager: 'Nguyễn Minh Tuấn',
+                phone: '+84901234567',
+            },
+            {
+                idx: 1,
+                code: '4EVER-0205',
+                name: 'District 1 Branch',
+                district: 'Quận 1, TP.HCM',
+                address: 'Trung tâm Quận 1, TP.HCM',
+                lat: 10.7769, lng: 106.7009,
+                status: 'Open Now',
+                statusClass: 'bg-emerald-100 text-emerald-700',
+                hours: '9:00 AM – 11:00 PM',
+                rating: '4.8',
+                manager: 'Trần Thị Hương',
+                phone: '+84907654321',
+            },
+            {
+                idx: 2,
+                code: '4EVER-0310',
+                name: 'Bình Thạnh Branch',
+                district: 'Bình Thạnh, TP.HCM',
+                address: 'Bình Thạnh, TP.HCM',
+                lat: 10.8072, lng: 106.7143,
+                status: 'Busy',
+                statusClass: 'bg-amber-100 text-amber-700',
+                hours: '8:30 AM – 10:30 PM',
+                rating: '4.7',
+                manager: 'Lê Quốc Bảo',
+                phone: '+84912345678',
+            },
+            {
+                idx: 3,
+                code: '4EVER-0415',
+                name: 'District 10 Branch',
+                district: 'Quận 10, TP.HCM',
+                address: 'Quận 10, TP.HCM',
+                lat: 10.7733, lng: 106.6677,
+                status: 'Open Now',
+                statusClass: 'bg-emerald-100 text-emerald-700',
+                hours: '8:00 AM – 9:30 PM',
+                rating: '4.9',
+                manager: 'Phạm Thu Vân',
+                phone: '+84923456789',
+            },
+            {
+                idx: 4,
+                code: '4EVER-0520',
+                name: 'Tân Phú Branch',
+                district: 'Tân Phú, TP.HCM',
+                address: 'Tân Phú, TP.HCM',
+                lat: 10.7923, lng: 106.6285,
+                status: 'Coming Soon',
+                statusClass: 'bg-gray-100 text-gray-500',
+                hours: 'TBD',
+                rating: '—',
+                manager: 'TBA',
+                phone: '',
+            },
+        ];
+
+        // =========================================================
+        //  MAP IFRAME — update khi click branch
+        // =========================================================
+        function updateMap(lat, lng) {
+            const frame = document.getElementById('mapFrame');
+            frame.src = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed&hl=en`;
+        }
+
+        // =========================================================
+        //  GET DIRECTIONS — mở Google Maps tab mới
+        // =========================================================
+        function drawRoute(idx) {
+            const b = branches[idx];
+            if (b.status === 'Coming Soon') return;
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}&travelmode=driving`;
+            window.open(url, '_blank');
+        }
+
+        // dummy — không cần với iframe
+        function clearRoute() {
+            document.getElementById('routeInfoPanel').classList.add('hidden');
+        }
+        function showRouteLoading(show) {}
+
+
+
+        // =========================================================
+        //  SELECT BRANCH LOGIC
+        // =========================================================
+        let activeIdx = 0;
+
+        function selectBranch(idx) {
+            activeIdx = idx;
+            const b = branches[idx];
+
+            // Update all branch card states
+            document.querySelectorAll('.branch-card').forEach(card => {
+                card.classList.remove('active');
+                const icon = card.querySelector('.w-10.h-10 i');
+                if (icon) {
+                    icon.classList.remove('text-brand-pink');
+                    icon.classList.add('text-gray-400');
+                    card.querySelector('.w-10.h-10').classList.remove('bg-pink-50', 'border-rose-100');
+                    card.querySelector('.w-10.h-10').classList.add('bg-gray-50', 'border-gray-100');
+                }
+            });
+
+            const activeCard = document.querySelector(`.branch-card[data-idx="${idx}"]`);
+            if (activeCard) {
+                activeCard.classList.add('active');
+                const icon = activeCard.querySelector('.w-10.h-10 i');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-brand-pink');
+                    activeCard.querySelector('.w-10.h-10').classList.remove('bg-gray-50', 'border-gray-100');
+                    activeCard.querySelector('.w-10.h-10').classList.add('bg-pink-50', 'border-rose-100');
+                }
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Update detail card
+            document.getElementById('detail-code').textContent = b.code;
+            document.getElementById('detail-name').textContent = b.name;
+            document.getElementById('detail-address').textContent = b.address;
+            document.getElementById('detail-hours').textContent = b.hours;
+            document.getElementById('detail-rating').textContent = b.rating;
+            document.getElementById('detail-manager').textContent = b.manager;
+
+            // Badge
+            const badge = document.getElementById('detail-badge');
+            badge.textContent = b.status;
+            badge.className = `text-[10px] font-bold px-2 py-0.5 rounded-full ${b.statusClass}`;
+
+            // Directions button — dim if Coming Soon
+            const directionsBtn = document.getElementById('detail-directions-btn');
+            if (b.status === 'Coming Soon') {
+                directionsBtn.disabled = true;
+                directionsBtn.style.opacity = '0.45';
+            } else {
+                directionsBtn.disabled = false;
+                directionsBtn.style.opacity = '1';
+            }
+
+            // Update Google Maps iframe
+            updateMap(b.lat, b.lng);
+        }
+
+
+
+
+
+
+        // =========================================================
+        //  SHARE LOCATION
+        // =========================================================
+        function shareLocation() {
+            const b = branches[activeIdx];
+            const url = `https://www.google.com/maps?q=${b.lat},${b.lng}`;
+            if (navigator.share) {
+                navigator.share({ title: `4EVER Photobooth — ${b.name}`, text: b.address, url });
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    const btn = document.getElementById('detail-share-btn');
+                    btn.innerHTML = '<i class="fa-solid fa-check text-sm text-emerald-500"></i>';
+                    setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-share-nodes text-sm"></i>'; }, 2000);
+                });
+            }
+        }
+
+        // =========================================================
+        //  SEARCH LOGIC
+        // =========================================================
+        function handleGlobalSearch(query) {
+            query = query.toLowerCase().trim();
+            const cards = document.querySelectorAll('.branch-card');
+            let visible = 0;
+            cards.forEach(card => {
+                const idx = parseInt(card.getAttribute('data-idx'));
+                const b = branches[idx];
+                const searchStr = `${b.code} ${b.name} ${b.district} ${b.address}`.toLowerCase();
+                if (!query || searchStr.includes(query)) {
+                    card.classList.remove('search-hidden');
+                    visible++;
+                } else {
+                    card.classList.add('search-hidden');
+                }
+            });
+            document.getElementById('branchCount').textContent = `${visible} store${visible !== 1 ? 's' : ''}`;
+        }
+
+        function handleStoreSearch(val) {
+            // Mirror to global search for consistency
+            document.getElementById('globalSearch').value = val;
+            handleGlobalSearch(val);
+        }
+
+        function jumpToStoreCode(code) {
+            code = code.trim().toUpperCase();
+            const found = branches.find(b => b.code === code || b.code.includes(code));
+            if (found) {
+                // Clear search
+                document.getElementById('storeCodeInput').value = '';
+                document.getElementById('globalSearch').value = '';
+                handleGlobalSearch('');
+                selectBranch(found.idx);
+            } else {
+                document.getElementById('storeCodeInput').style.borderColor = '#ef4444';
+                setTimeout(() => {
+                    document.getElementById('storeCodeInput').style.borderColor = '';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
