@@ -11,7 +11,7 @@
     <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Montserrat:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -34,7 +34,8 @@
                     },
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        hand: ['Caveat', 'cursive']
                     }
                 }
             }
@@ -84,6 +85,286 @@
             font-weight: bold;
             padding: 4px 0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* ── Hero Section 2-column layout ── */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 5% 28px 5%;
+            gap: 40px;
+        }
+        .hero-content {
+            flex: 1 1 45%;
+            max-width: 600px;
+        }
+        .hero-visual {
+            flex: 1 1 55%;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .photobooth-collage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+        @media (max-width: 992px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 5%;
+            }
+            .hero-content {
+                max-width: 100%;
+            }
+            .hero-visual {
+                justify-content: center;
+                margin-top: 40px;
+            }
+        }
+
+        /* ── Price Cards Entrance Animation (Intersection Observer) ── */
+        .price-card {
+            opacity: 0;
+            transform: translateY(42px);
+            transition: opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1), transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+            will-change: opacity, transform;
+        }
+        .price-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Hiệu ứng trượt so le nối tiếp êm dịu, thong thả */
+        .price-card:nth-child(1) { transition-delay: 0.08s; }
+        .price-card:nth-child(2) { transition-delay: 0.22s; }
+        .price-card:nth-child(3) { transition-delay: 0.36s; }
+        .price-card:nth-child(4) { transition-delay: 0.50s; }
+
+        /* ── Hover Card Styling & Effects ── */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 0 30px 0;
+        }
+
+        .hover-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 420px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            cursor: pointer;
+            background-color: #1a0809;
+        }
+
+        .card-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.5s ease-in-out, transform 0.5s ease-in-out;
+            display: block;
+        }
+
+        /* HIỆU ỨNG 1: Làm mờ và tối ảnh khi di chuột vào */
+        .hover-card:hover .card-bg {
+            filter: blur(5px) brightness(0.55);
+            transform: scale(1.06);
+        }
+
+        /* Định dạng khối nội dung (Ban đầu ẩn đi) */
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(to top, rgba(139, 30, 36, 0.95) 0%, rgba(139, 30, 36, 0.6) 55%, transparent 100%);
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+            z-index: 5;
+        }
+
+        /* HIỆU ỨNG 2: Nội dung trượt lên khi di chuột vào */
+        .hover-card:hover .card-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card-content h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .card-content p {
+            font-size: 13px;
+            margin-bottom: 15px;
+            opacity: 0.92;
+            line-height: 1.4;
+        }
+
+        .card-content .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #F8D179;
+            margin-bottom: 22px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn-book {
+            background-color: #fff;
+            color: #8B1E24;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 85%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-book:hover {
+            background-color: #F8D179;
+            color: #631015;
+            transform: scale(1.03);
+        }
+
+        /* Dải băng Most Popular cho Gói Đôi */
+        .hover-card .badge {
+            position: absolute;
+            top: 22px;
+            right: -35px;
+            background-color: #D9534F;
+            color: white;
+            padding: 5px 42px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transform: rotate(45deg);
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            text-transform: uppercase;
+        }
+
+        /* Hỗ trợ mượt mà trên Mobile/Tablet cảm ứng */
+        @media (hover: none), (max-width: 768px) {
+            .hover-card .card-content {
+                transform: translateY(0);
+                opacity: 1;
+                background: linear-gradient(to top, rgba(139, 30, 36, 0.92) 0%, rgba(139, 30, 36, 0.45) 60%, transparent 100%);
+            }
+            .hover-card .card-bg {
+                filter: brightness(0.75);
+            }
+        }
+
+        /* Responsive chia cột */
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── Special Promotions Section Styles ── */
+        .sp-section {
+            background-color: #ffffff;
+        }
+        .masking-tape {
+            position: absolute;
+            background-color: rgba(235, 223, 204, 0.95);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 45px;
+            height: 16px;
+            z-index: 20;
+            transform: rotate(-3deg);
+        }
+        .polaroid {
+            background: white;
+            padding: 8px 8px 30px 8px;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .drawn-arrow {
+            width: 30px;
+            height: 30px;
+            border-bottom: 2px solid #361511;
+            border-right: 2px solid #361511;
+            border-radius: 0 0 100% 0;
+            position: absolute;
+        }
+        .drawn-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: -2px;
+            width: 10px;
+            height: 2px;
+            background: #361511;
+            transform: rotate(45deg);
+        }
+        .drawn-arrow::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -6px;
+            width: 2px;
+            height: 10px;
+            background: #361511;
+            transform: rotate(45deg);
+        }
+
+        /* ── Special Promotions Hover & Animation Effects ── */
+        #special-promotions .price-card {
+            transition-delay: 0s !important;
+        }
+        .promo-special-card {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            will-change: transform, box-shadow;
+        }
+        .promo-special-card:hover {
+            transform: translateY(-8px) scale(1.012);
+            box-shadow: 0 18px 36px -6px rgba(54, 21, 17, 0.15);
+            border-color: rgba(139, 30, 36, 0.35);
+        }
+        .promo-special-card .polaroid-item {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+        }
+        .promo-special-card:hover .polaroid-item {
+            transform: scale(1.06) rotate(0deg);
+            box-shadow: 4px 10px 22px rgba(0, 0, 0, 0.22);
+        }
+        .promo-special-card .camera-vintage-img {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+        .promo-special-card:hover .camera-vintage-img {
+            transform: scale(1.15) rotate(-6deg);
+            opacity: 1;
         }
     </style>
 </head>
@@ -182,72 +463,166 @@
         <!-- ============================================================ -->
         <!-- 1. HERO BANNER SECTION (Autumn Appreciation Campaign)        -->
         <!-- ============================================================ -->
-        <section class="relative overflow-hidden py-12 md:py-20 bg-gradient-to-b from-brand-sand/50 to-brand-cream">
+        <section class="relative overflow-hidden py-2 md:py-3 bg-gradient-to-b from-brand-sand/50 to-brand-cream">
             <!-- Decorative Elements -->
             <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-orange/10 rounded-full blur-2xl pointer-events-none"></div>
             <div class="absolute top-1/2 -right-10 w-60 h-60 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid lg:grid-cols-12 gap-12 items-center">
+            <div class="relative z-10">
+                <div class="hero-section">
                     
                     <!-- Left Content -->
-                    <div class="lg:col-span-7 text-center lg:text-left">
-                        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/15 text-brand-darkred text-xs md:text-sm font-semibold mb-6 border border-brand-orange/30">
-                            <i class="fa-solid fa-fire text-brand-orange"></i> Autumn Customer Appreciation Campaign
-                        </span>
-
-                        <h1 class="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-darkred leading-tight mb-6">
+                    <div class="hero-content text-center lg:text-left">
+                        <h1 class="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-darkred leading-tight mb-3">
                             "Capture" <br>
                             <span class="text-brand-orange italic font-normal">Your Brightest Moments</span>
                         </h1>
 
-                        <p class="text-lg md:text-xl text-brand-brown/80 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans">
+                        <p class="text-sm sm:text-base text-brand-brown/80 mb-5 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
                             Cherish vibrant memories with your loved ones and best friends. Enjoy the biggest seasonal promotional discounts of the year at <span class="font-bold text-brand-red">4EVER Photo Booth</span>!
                         </p>
 
                         <!-- COUNTDOWN TIMER CONTAINER -->
-                        <div class="mb-10 p-6 glass-card rounded-2xl shadow-xl max-w-md mx-auto lg:mx-0 border-l-4 border-l-brand-red">
-                            <div class="text-xs uppercase tracking-wider font-bold text-brand-brown/70 mb-3 text-center lg:text-left flex items-center justify-center lg:justify-start gap-2">
+                        <div class="mb-6 p-4 glass-card rounded-2xl shadow-lg max-w-md mx-auto lg:mx-0 border-l-4 border-l-brand-red">
+                            <div class="text-[11px] uppercase tracking-wider font-bold text-brand-brown/70 mb-2.5 text-center lg:text-left flex items-center justify-center lg:justify-start gap-1.5">
                                 <i class="fa-regular fa-clock text-brand-red"></i> SPECIAL OFFER ENDS IN:
                             </div>
-                            <div class="grid grid-cols-4 gap-3 text-center" id="countdown">
-                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
-                                    <span id="days" class="font-bold text-2xl md:text-3xl font-mono block">02</span>
-                                    <span class="text-[10px] uppercase opacity-80 font-mono">DAYS</span>
+                            <div class="grid grid-cols-4 gap-2.5 text-center" id="countdown">
+                                <div class="bg-brand-red text-white p-2.5 rounded-xl shadow-xs">
+                                    <span id="days" class="font-bold text-xl md:text-2xl font-mono block">02</span>
+                                    <span class="text-[9px] uppercase opacity-80 font-mono">DAYS</span>
                                 </div>
-                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
-                                    <span id="hours" class="font-bold text-2xl md:text-3xl font-mono block">14</span>
-                                    <span class="text-[10px] uppercase opacity-80 font-mono">HOURS</span>
+                                <div class="bg-brand-red text-white p-2.5 rounded-xl shadow-xs">
+                                    <span id="hours" class="font-bold text-xl md:text-2xl font-mono block">14</span>
+                                    <span class="text-[9px] uppercase opacity-80 font-mono">HOURS</span>
                                 </div>
-                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
-                                    <span id="minutes" class="font-bold text-2xl md:text-3xl font-mono block">45</span>
-                                    <span class="text-[10px] uppercase opacity-80 font-mono">MINUTES</span>
+                                <div class="bg-brand-red text-white p-2.5 rounded-xl shadow-xs">
+                                    <span id="minutes" class="font-bold text-xl md:text-2xl font-mono block">45</span>
+                                    <span class="text-[9px] uppercase opacity-80 font-mono">MINUTES</span>
                                 </div>
-                                <div class="bg-brand-red text-white p-3 rounded-xl shadow-md">
-                                    <span id="seconds" class="font-bold text-2xl md:text-3xl font-mono block">30</span>
-                                    <span class="text-[10px] uppercase opacity-80 font-mono">SECONDS</span>
+                                <div class="bg-brand-red text-white p-2.5 rounded-xl shadow-xs">
+                                    <span id="seconds" class="font-bold text-xl md:text-2xl font-mono block">30</span>
+                                    <span class="text-[9px] uppercase opacity-80 font-mono">SECONDS</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Call to action buttons -->
-                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                            <button onclick="openBookingModal()" class="w-full sm:w-auto bg-brand-red hover:bg-brand-darkred text-white text-base font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1 flex items-center justify-center gap-3 group">
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                            <button onclick="openBookingModal()" class="w-full sm:w-auto bg-brand-red hover:bg-brand-darkred text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
                                 <span>Claim Discount Voucher</span>
                                 <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                             </button>
-                            <a href="#offers" class="w-full sm:w-auto bg-white border border-brand-sand hover:bg-brand-sand/50 text-brand-brown text-base font-medium px-6 py-4 rounded-xl text-center transition-all">
+                            <a href="#offers" class="w-full sm:w-auto bg-white border border-brand-sand hover:bg-brand-sand/50 text-brand-brown text-sm font-medium px-5 py-3 rounded-xl text-center transition-all shadow-xs">
                                 Explore Photo Packages
                             </a>
                         </div>
                     </div>
 
-                    <!-- Right Visual Display (Autumn Poster Artwork) -->
-                    <div class="lg:col-span-5 relative">
-                        <div class="relative mx-auto max-w-md lg:max-w-none">
-                            <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/40 transform hover:scale-[1.01] transition-transform duration-500 bg-brand-darkred">
-                                <img src="images/autumn_promo_poster.jpg" alt="Autumn Promotion Special Campaign" class="w-full h-auto object-cover rounded-3xl">
-                            </div>
+                    <!-- Right Visual Display – Photo Booth Collage (ref-matched) -->
+                    <div class="hero-visual">
+                        <style>
+                            /* ── Photo Booth Frame ── */
+                            .pb-frame {
+                                border-radius: 10px;
+                                overflow: hidden;
+                                box-shadow: 0 3px 12px rgba(0,0,0,0.22);
+                                display: flex;
+                                flex-direction: column;
+                                position: relative;
+                                flex-shrink: 0;
+                            }
+                            .pb-frame--red  { background: #8B1E24; padding: 5px 5px 14px 5px; }
+                            .pb-frame--coral{ background: #D96B43; padding: 5px 5px 14px 5px; }
+
+                            /* Corner notch decoration */
+                            .pb-frame::before,
+                            .pb-frame::after {
+                                content: '';
+                                position: absolute;
+                                top: 0; width: 10px; height: 10px;
+                                background: rgba(0,0,0,0.15);
+                            }
+                            .pb-frame::before { left: 0; border-radius: 0 0 6px 0; }
+                            .pb-frame::after  { right: 0; border-radius: 0 0 0 6px; }
+
+                            .pb-photo {
+                                width: 100%;
+                                background: #e8ddd8;
+                                display: flex; align-items: center; justify-content: center;
+                                overflow: hidden; position: relative;
+                                border-radius: 4px;
+                                flex: 1;
+                            }
+                            .pb-photo img {
+                                width: 100%; height: 100%; object-fit: cover; display: block;
+                            }
+                            .pb-ph {
+                                position: absolute; display: flex; flex-direction: column;
+                                align-items: center; color: rgba(255,255,255,0.55);
+                                font-size: 10px; gap: 3px;
+                            }
+                            .pb-ph i { font-size: 20px; }
+                            .pb-col-left, .pb-col-right {
+                                display: flex; flex-direction: column; gap: 12px;
+                            }
+                        </style>
+
+                        <div class="relative">
+                            <!-- soft glow bg -->
+                            <div class="absolute inset-2 rounded-3xl bg-brand-sand blur-3xl opacity-80 pointer-events-none"></div>
+
+                            <div class="photobooth-collage relative" style="gap: 16px;">
+
+                                <!-- ── LEFT COLUMN ── -->
+                                <div class="pb-col-left">
+                                    <div class="pb-frame pb-frame--red" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:128px;">
+                                            <img src="images/promo_photo_1.jpg" alt="Photo 1" style="object-position: center 20%;">
+                                        </div>
+                                    </div>
+                                    <div class="pb-frame pb-frame--coral" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:98px;">
+                                            <img src="images/promo_photo_2.jpg" alt="Photo 2" style="object-position: center 15%;">
+                                        </div>
+                                    </div>
+                                    <div class="pb-frame pb-frame--red" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:96px;">
+                                            <img src="images/promo_photo_3.jpg" alt="Photo 3" style="object-position: center 25%;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ── CENTER LARGE ── -->
+                                <div class="pb-frame pb-frame--coral" style="width:275px; padding: 8px 8px 22px 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.28);">
+                                    <div class="pb-photo" style="height:348px; background: #e3dad0;">
+                                        <img src="images/promo_photo_main.jpg" alt="Main Photo" style="object-fit: cover; object-position: center;">
+                                    </div>
+                                </div>
+
+                                <!-- ── RIGHT COLUMN: 1 KHUNG NGANG TRÊN + 2 KHUNG DỌC DƯỚI ── -->
+                                <div class="pb-col-right">
+                                    <!-- Khung ngang trên cùng -->
+                                    <div class="pb-frame pb-frame--coral" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:92px;">
+                                            <img src="images/promo_photo_4.jpg" alt="Photo 4" style="object-fit: cover; object-position: center 30%;">
+                                        </div>
+                                    </div>
+                                    <!-- Khung dọc ở giữa -->
+                                    <div class="pb-frame pb-frame--red" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:134px;">
+                                            <img src="images/promo_photo_5.jpg" alt="Photo 5" style="object-fit: cover; object-position: center 20%;">
+                                        </div>
+                                    </div>
+                                    <!-- Khung dọc dưới cùng -->
+                                    <div class="pb-frame pb-frame--coral" style="width:125px; padding: 6px 6px 16px 6px;">
+                                        <div class="pb-photo" style="height:134px;">
+                                            <img src="images/promo_photo_6.jpg" alt="Photo 6" style="object-fit: cover; object-position: center 20%;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!-- /flex row -->
                         </div>
                     </div>
 
@@ -258,148 +633,204 @@
         <!-- ============================================================ -->
         <!-- 2. PRICING & DISCOUNTS SECTION                               -->
         <!-- ============================================================ -->
-        <section id="offers" class="py-16 md:py-24 bg-white relative">
+        <section id="offers" class="py-10 md:py-16 bg-white relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="text-brand-orange font-semibold text-sm tracking-wider uppercase">PROMOTIONAL PRICING PACKAGES</span>
-                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-brand-darkred mt-2 mb-4">Best-Selling Photo Booth Packages</h2>
-                    <div class="w-20 h-1 bg-brand-red mx-auto rounded-full mb-4"></div>
-                    <p class="text-brand-brown/70 font-sans">Choose the ideal package for your session and secure your exclusive discount voucher today</p>
+                <!-- Tiêu đề Bảng Giá -->
+                <div class="text-center max-w-3xl mx-auto mb-8">
+                    <h2 class="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-darkred mb-3">Pricing &amp; Packages</h2>
+                    <p class="text-brand-brown/70 font-sans text-sm sm:text-base">Choose the perfect photo package for your moments and claim your special voucher</p>
                 </div>
 
-                <!-- PRICING CARDS GRID -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+                <!-- PRICING CARDS GRID: 4 CỘT PHONG CÁCH HOVER CARD -->
+                <div class="pricing-grid">
                     
-                    <!-- CARD 1: Couple & Besties Session -->
-                    <div class="bg-brand-cream/40 rounded-3xl p-8 border-2 border-brand-sand relative flex flex-col justify-between hover:border-brand-orange transition-all duration-300 hover:shadow-xl group">
-                        <div class="ribbon bg-brand-orange">HOT DEAL</div>
-                        <div>
-                            <div class="text-xs font-bold uppercase tracking-widest text-brand-orange mb-2">Standard Package</div>
-                            <h3 class="font-playfair text-2xl font-bold text-brand-brown mb-3">Couple &amp; Besties</h3>
-                            <p class="text-sm text-gray-600 mb-6 font-sans">Perfect for 2–3 friends or couples capturing milestones, student keepsakes, or mini lookbooks.</p>
-                            
-                            <!-- Price section -->
-                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white border border-brand-sand">
-                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-red font-sans">50K</span>
-                                <span class="text-lg text-gray-400 line-through font-semibold font-sans">70K</span>
-                                <span class="ml-auto text-xs bg-red-100 text-brand-red px-2.5 py-1 rounded-full font-bold">Save 20K</span>
-                            </div>
-
-                            <!-- Features list -->
-                            <ul class="space-y-3 text-sm text-brand-brown/80 mb-8 font-sans">
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>1 Signature 4-cut photo strip keepsake</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Complimentary autumn &amp; festive props access</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Signature studio color grading &amp; skin tone presets</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Instant high-res digital copy &amp; QR code download</span>
-                                </li>
-                            </ul>
+                    <!-- CARD 1: Single -->
+                    <div class="hover-card price-card">
+                        <img src="images/package_single.jpg" alt="Single" class="card-bg">
+                        <div class="card-content">
+                            <h3>Single</h3>
+                            <p>1 strip, 4 photos, 1 frame of your choice</p>
+                            <div class="price">35k VND</div>
+                            <button type="button" onclick="openBookingModal('Single - 35k VND')" class="btn-book">Select</button>
                         </div>
-
-                        <button onclick="openBookingModal('Couple & Besties Package (50K)')" class="w-full bg-white hover:bg-brand-orange hover:text-white text-brand-brown border-2 border-brand-orange py-3.5 rounded-xl font-bold transition-all text-center shadow-sm">
-                            Claim 50K Offer
-                        </button>
                     </div>
 
-                    <!-- CARD 2: Photobook Autumn Special (BESTSELLER) -->
-                    <div class="bg-gradient-to-b from-brand-darkred to-brand-red text-white rounded-3xl p-8 relative flex flex-col justify-between shadow-2xl border-2 border-brand-gold transform lg:-translate-y-3">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-brand-darkred font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider shadow-md">
-                            <i class="fa-solid fa-crown mr-1"></i> RECOMMENDED
+                    <!-- CARD 2: Duo - MOST POPULAR -->
+                    <div class="hover-card price-card">
+                        <div class="badge">MOST POPULAR</div>
+                        <img src="images/package_duo.jpg" alt="Duo" class="card-bg">
+                        <div class="card-content">
+                            <h3>Duo</h3>
+                            <p>2 strips</p>
+                            <div class="price">65k VND</div>
+                            <button type="button" onclick="openBookingModal('Duo - 65k VND')" class="btn-book">Select</button>
                         </div>
-                        <div>
-                            <div class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2 mt-2">Most Popular Package</div>
-                            <h3 class="font-playfair text-2xl font-bold text-white mb-3">Photobook Autumn Special</h3>
-                            <p class="text-sm text-white/80 mb-6 font-sans">Premium folding keepsake envelope card album with elegant autumn-themed envelope styling.</p>
-                            
-                            <!-- Price section -->
-                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-gold font-sans">80K</span>
-                                <span class="text-lg text-white/50 line-through font-semibold font-sans">100K</span>
-                                <span class="ml-auto text-xs bg-brand-gold text-brand-darkred px-2.5 py-1 rounded-full font-bold">20% OFF</span>
-                            </div>
-
-                            <!-- Features list -->
-                            <ul class="space-y-3 text-sm text-white/90 mb-8 font-sans">
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
-                                    <span>Bespoke folding keepsake card "From My Corner"</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
-                                    <span>2 Printed photo strips + 1 Framed keepsake card photo</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
-                                    <span>Full access to custom studio lighting &amp; digital backdrops</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
-                                    <span>Complimentary luxury velvet red envelope &amp; silk ribbon</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-gold"></i>
-                                    <span>Full HD digital photos + live shooting GIF / Boomerang</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <button onclick="openBookingModal('Photobook Autumn Special (80K)')" class="w-full bg-brand-gold hover:bg-yellow-400 text-brand-darkred py-3.5 rounded-xl font-bold transition-all text-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-                            Book 80K Package
-                        </button>
                     </div>
 
-                    <!-- CARD 3: Party & Squad Session -->
-                    <div class="bg-brand-cream/40 rounded-3xl p-8 border-2 border-brand-sand relative flex flex-col justify-between hover:border-brand-orange transition-all duration-300 hover:shadow-xl group">
-                        <div>
-                            <div class="text-xs font-bold uppercase tracking-widest text-brand-orange mb-2">Group &amp; Party Package</div>
-                            <h3 class="font-playfair text-2xl font-bold text-brand-brown mb-3">Party &amp; Squad Session</h3>
-                            <p class="text-sm text-gray-600 mb-6 font-sans">Designed for groups of 4–6 friends for graduations, birthday bashes, or team bonding.</p>
-                            
-                            <!-- Price section -->
-                            <div class="flex items-baseline gap-3 mb-6 p-4 rounded-2xl bg-white border border-brand-sand">
-                                <span class="text-3xl sm:text-4xl font-extrabold text-brand-red font-sans">120K</span>
-                                <span class="text-lg text-gray-400 line-through font-semibold font-sans">160K</span>
-                                <span class="ml-auto text-xs bg-red-100 text-brand-red px-2.5 py-1 rounded-full font-bold">25% OFF</span>
-                            </div>
-
-                            <!-- Features list -->
-                            <ul class="space-y-3 text-sm text-brand-brown/80 mb-8 font-sans">
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>1 Individual printed photo strip for every member</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Unlimited shooting poses &amp; takes per session</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Guided posing prompts &amp; exclusive themed concept props</span>
-                                </li>
-                                <li class="flex items-center gap-3">
-                                    <i class="fa-solid fa-circle-check text-brand-orange"></i>
-                                    <span>Complete package of original high-resolution digital files</span>
-                                </li>
-                            </ul>
+                    <!-- CARD 3: Group -->
+                    <div class="hover-card price-card">
+                        <img src="images/package_group.jpg" alt="Group" class="card-bg" style="object-position: center 15%;">
+                        <div class="card-content">
+                            <h3>Group</h3>
+                            <p>3 strips</p>
+                            <div class="price">95k VND</div>
+                            <button type="button" onclick="openBookingModal('Group - 95k VND')" class="btn-book">Select</button>
                         </div>
+                    </div>
 
-                        <button onclick="openBookingModal('Party & Squad Package (120K)')" class="w-full bg-white hover:bg-brand-orange hover:text-white text-brand-brown border-2 border-brand-orange py-3.5 rounded-xl font-bold transition-all text-center shadow-sm">
-                            Claim Group Offer
-                        </button>
+                    <!-- CARD 4: Party -->
+                    <div class="hover-card price-card">
+                        <img src="images/package_party.jpg" alt="Party" class="card-bg" style="object-position: center 15%;">
+                        <div class="card-content">
+                            <h3>Party</h3>
+                            <p>5 strips</p>
+                            <div class="price">150k VND</div>
+                            <button type="button" onclick="openBookingModal('Party - 150k VND')" class="btn-book">Select</button>
+                        </div>
                     </div>
 
                 </div>
             </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 3. SPECIAL PROMOTIONS SECTION                                -->
+        <!-- ============================================================ -->
+        <section id="special-promotions" class="sp-section py-16 px-4 md:px-8 bg-white relative overflow-hidden">
+
+            <div class="text-center mb-16 relative z-10">
+                <h2 class="font-hand text-4xl md:text-5xl mb-2 italic tracking-wider" style="color:#361511;">Special</h2>
+                <h1 class="font-serif text-2xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-widest" style="color:#361511;">
+                    Special Promotions
+                </h1>
+            </div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div id="specialPromoGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                    <!-- CARD 1: STUDENT DISCOUNT -->
+                    <article onclick="openBookingModal('Student Discount (10% Off)')"
+                             class="promo-special-card price-card group cursor-pointer bg-[#E3EAEF] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-center gap-6 relative shadow-sm">
+                        <div class="w-full sm:w-1/2 flex justify-center relative min-h-[220px] items-center">
+                            <div class="polaroid polaroid-item transform -rotate-6 z-10 w-36">
+                                <img src="images/promos/student_hssv.jpg" alt="Student Discount" class="w-full h-44 object-cover border border-gray-100">
+                            </div>
+                            <!-- Paperclip -->
+                            <div class="absolute top-4 left-[20%] sm:left-[30%] z-20 text-gray-500 text-3xl transform rotate-12">
+                                <i class="fa-solid fa-paperclip"></i>
+                            </div>
+                            <!-- Handwritten text -->
+                            <div class="absolute bottom-4 right-0 z-20 transform rotate-[-5deg]">
+                                <p class="font-hand text-[#E57373] text-2xl font-bold leading-tight">Student<br>10% Off</p>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 text-center sm:text-left z-10 pb-4">
+                            <h3 class="font-bold text-lg md:text-xl mb-2 tracking-wide" style="font-family:'Montserrat',sans-serif;">STUDENT DISCOUNT</h3>
+                            <p class="text-sm md:text-base leading-relaxed text-gray-700" style="font-family:'Montserrat',sans-serif;">10% off with student ID</p>
+                            <div class="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-red group-hover:text-brand-darkred">
+                                <span>Claim Offer</span>
+                                <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <!-- Vintage Camera Icon -->
+                        <img src="images/promos/camera_icon.png" alt="Vintage Camera" class="camera-vintage-img w-14 sm:w-16 h-auto absolute bottom-3 right-4 sm:bottom-4 sm:right-6 pointer-events-none opacity-85 drop-shadow-sm">
+                    </article>
+
+                    <!-- CARD 2: BRING A FRIEND -->
+                    <article onclick="openBookingModal('Bring a Friend (5,000₫ Off)')"
+                             class="promo-special-card price-card group cursor-pointer bg-[#E3EAEF] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-center gap-6 relative shadow-sm">
+                        <div class="w-full sm:w-1/2 flex justify-center relative min-h-[220px] items-center">
+                            <div class="polaroid-item bg-white p-2 shadow-lg transform rotate-3 z-10 relative">
+                                <div class="masking-tape -top-2 -left-4 transform -rotate-12"></div>
+                                <div class="masking-tape -bottom-2 -right-4 transform rotate-12"></div>
+                                <img src="images/promos/friends_single.jpg" alt="Bring a Friend" class="w-40 h-36 object-cover border border-gray-200">
+                            </div>
+                            <!-- Drawn Arrow and Text -->
+                            <div class="absolute bottom-6 right-2 sm:-right-4 z-20 flex flex-col items-center">
+                                <div class="drawn-arrow transform -rotate-45 mb-1 mr-4"></div>
+                                <p class="font-hand text-xl font-bold transform rotate-6" style="color:#361511;">5k<br>direct</p>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 text-center sm:text-left z-10 pb-4">
+                            <h3 class="font-bold text-lg md:text-xl mb-2 tracking-wide" style="font-family:'Montserrat',sans-serif;">BRING A FRIEND</h3>
+                            <p class="text-sm md:text-base leading-relaxed text-gray-700" style="font-family:'Montserrat',sans-serif;">Get 5,000₫ off</p>
+                            <div class="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-red group-hover:text-brand-darkred">
+                                <span>Claim Offer</span>
+                                <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <!-- Vintage Camera Icon -->
+                        <img src="images/promos/camera_icon.png" alt="Vintage Camera" class="camera-vintage-img w-14 sm:w-16 h-auto absolute bottom-3 right-4 sm:bottom-4 sm:right-6 pointer-events-none opacity-85 drop-shadow-sm">
+                    </article>
+
+                    <!-- CARD 3: COUPLE DEAL -->
+                    <article onclick="openBookingModal('Couple Deal (2 Basic Sessions for 60k)')"
+                             class="promo-special-card price-card group cursor-pointer bg-[#E3EAEF] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-center gap-6 relative shadow-sm">
+                        <div class="w-full sm:w-1/2 flex justify-center relative min-h-[220px] items-center">
+                            <div class="polaroid polaroid-item transform -rotate-2 z-10 w-36 pb-12">
+                                <div class="masking-tape -top-2 left-1/2 -translate-x-1/2 transform rotate-2 w-16"></div>
+                                <img src="images/promos/couple_single.jpg" alt="Couple Deal" class="w-full h-36 object-cover border border-gray-100">
+                                <p class="font-hand absolute bottom-2 left-0 w-full text-center text-xl font-bold transform -rotate-2" style="color:#361511;">Love Birds</p>
+                            </div>
+                            <!-- Hearts -->
+                            <i class="fa-solid fa-heart absolute top-8 right-[20%] text-[#E57373] text-sm transform rotate-12 z-0"></i>
+                            <i class="fa-solid fa-heart absolute top-16 right-[15%] text-[#E57373] text-xs transform -rotate-12 z-0"></i>
+                            <i class="fa-solid fa-heart absolute bottom-12 left-[15%] text-[#E57373] text-sm transform rotate-45 z-0"></i>
+                        </div>
+                        <div class="w-full sm:w-1/2 text-center sm:text-left z-10 pb-4">
+                            <h3 class="font-bold text-lg md:text-xl mb-2 tracking-wide" style="font-family:'Montserrat',sans-serif;">COUPLE DEAL</h3>
+                            <p class="text-sm md:text-base leading-relaxed text-gray-700" style="font-family:'Montserrat',sans-serif;">2 Basic sessions for 60,000₫</p>
+                            <div class="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-red group-hover:text-brand-darkred">
+                                <span>Claim Offer</span>
+                                <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <!-- Vintage Camera Icon -->
+                        <img src="images/promos/camera_icon.png" alt="Vintage Camera" class="camera-vintage-img w-14 sm:w-16 h-auto absolute bottom-3 right-4 sm:bottom-4 sm:right-6 pointer-events-none opacity-85 drop-shadow-sm">
+                    </article>
+
+                    <!-- CARD 4: LOYALTY CARD -->
+                    <article onclick="openBookingModal('Loyalty Card (5 Sessions = 1 Free)')"
+                             class="promo-special-card price-card group cursor-pointer bg-[#E3EAEF] rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-center gap-6 relative shadow-sm">
+                        <div class="w-full sm:w-1/2 flex justify-center relative min-h-[220px] items-center pl-4">
+                            <div class="polaroid-item bg-[#F4EFE6] border border-gray-300 rounded shadow-md p-4 transform rotate-3 z-10 relative w-48">
+                                <!-- Binder Ring -->
+                                <div class="absolute -left-3 top-2 border-2 border-gray-500 rounded-full w-6 h-6 flex items-center justify-center bg-[#E3EAEF]">
+                                   <div class="w-2 h-2 bg-white rounded-full"></div>
+                                </div>
+                                <p class="font-hand text-center text-xl mb-2 border-b border-gray-400 pb-1" style="color:#361511;">Punch Card</p>
+                                <div class="flex justify-between text-yellow-600 mb-3 text-lg">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-solid fa-star text-yellow-500 border border-black p-0.5 shadow-sm transform -rotate-6"></i>
+                                </div>
+                                <div class="border border-gray-400 p-1 flex justify-between items-center text-sm">
+                                    <span class="font-hand text-lg" style="color:#361511;">5 punches</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-1/2 text-center sm:text-left z-10 pb-4">
+                            <h3 class="font-bold text-lg md:text-xl mb-2 tracking-wide" style="font-family:'Montserrat',sans-serif;">LOYALTY CARD</h3>
+                            <p class="text-sm md:text-base leading-relaxed text-gray-700" style="font-family:'Montserrat',sans-serif;">Take 5 sessions &rarr; 1 Basic session FREE</p>
+                            <div class="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-red group-hover:text-brand-darkred">
+                                <span>Claim Offer</span>
+                                <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <!-- Vintage Camera Icon -->
+                        <img src="images/promos/camera_icon.png" alt="Vintage Camera" class="camera-vintage-img w-14 sm:w-16 h-auto absolute bottom-3 right-4 sm:bottom-4 sm:right-6 pointer-events-none opacity-85 drop-shadow-sm">
+                    </article>
+
+                </div>
+            </div>
+
+            <!-- 4EVER Signature -->
+            <div class="text-right mt-6 pr-8 relative z-10">
+                <span class="font-sans font-bold text-gray-400 tracking-widest text-sm">4EVER <span class="text-pink-300">•</span></span>
+            </div>
+
         </section>
     </main>
 
@@ -461,9 +892,18 @@
                 <div>
                     <label class="block text-xs font-bold text-brand-brown uppercase mb-1">Select Package Deal</label>
                     <select id="packageSelect" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none text-sm">
-                        <option value="Couple & Besties Package (50K)">Couple &amp; Besties Package - 50,000 VND (Regular 70K)</option>
-                        <option value="Photobook Autumn Special (80K)" selected>Photobook Autumn Special - 80,000 VND (Regular 100K)</option>
-                        <option value="Party & Squad Package (120K)">Party &amp; Squad Package - 120,000 VND (Regular 160K)</option>
+                        <optgroup label="── Standard Packages ──">
+                            <option value="Single - 35k VND">Single - 35k VND (1 strip, 4 photos, 1 frame of your choice)</option>
+                            <option value="Duo - 65k VND" selected>Duo - 65k VND (2 strips - Most Popular)</option>
+                            <option value="Group - 95k VND">Group - 95k VND (3 strips)</option>
+                            <option value="Party - 150k VND">Party - 150k VND (5 strips)</option>
+                        </optgroup>
+                        <optgroup label="── Special Promotions ──">
+                            <option value="Student Discount (10% Off)">Student Discount (10% off with student ID)</option>
+                            <option value="Bring a Friend (5,000₫ Off)">Bring a Friend (Get 5,000₫ off)</option>
+                            <option value="Couple Deal (2 Basic Sessions for 60k)">Couple Deal (2 Basic sessions for 60,000₫)</option>
+                            <option value="Loyalty Card (5 Sessions = 1 Free)">Loyalty Card (Take 5 sessions → 1 Basic session FREE)</option>
+                        </optgroup>
                     </select>
                 </div>
 
@@ -495,7 +935,21 @@
             const modal = document.getElementById('bookingModal');
             const packageSelect = document.getElementById('packageSelect');
             if (packageName && packageSelect) {
-                packageSelect.value = packageName;
+                let found = false;
+                for (let i = 0; i < packageSelect.options.length; i++) {
+                    if (packageSelect.options[i].value === packageName) {
+                        packageSelect.selectedIndex = i;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    const opt = document.createElement('option');
+                    opt.value = packageName;
+                    opt.textContent = packageName;
+                    packageSelect.appendChild(opt);
+                    packageSelect.value = packageName;
+                }
             }
             modal.classList.remove('hidden');
         }
@@ -539,6 +993,51 @@
         window.onload = function() {
             startCountdown();
         };
+
+        // Quan sát hiệu ứng xuất hiện các khung giá & khuyến mãi
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Nhóm Bảng Giá phía trên (#offers)
+            const standardCards = document.querySelectorAll('#offers .price-card');
+            
+            // 2. Nhóm Khuyến Mãi Đặc Biệt phía dưới (#special-promotions)
+            const promoGrid = document.getElementById('specialPromoGrid');
+            const promoCards = document.querySelectorAll('#special-promotions .price-card');
+
+            if ('IntersectionObserver' in window) {
+                // Observer cho bảng giá trên
+                const standardObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('show');
+                            observer.unobserve(entry.target); 
+                        }
+                    });
+                }, { root: null, rootMargin: '0px', threshold: 0.15 });
+
+                standardCards.forEach(card => standardObserver.observe(card));
+
+                // Observer cho 4 thẻ khuyến mãi đặc biệt: CẢ 4 Ô TRƯỢT LÊN CÙNG LÚC
+                if (promoGrid) {
+                    const promoObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                // Kích hoạt class show đồng thời cho toàn bộ 4 thẻ
+                                promoCards.forEach(c => c.classList.add('show'));
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { root: null, rootMargin: '0px', threshold: 0.08 });
+
+                    promoObserver.observe(promoGrid);
+                } else {
+                    promoCards.forEach(card => card.classList.add('show'));
+                }
+            } else {
+                // Fallback cho trình duyệt cũ
+                standardCards.forEach(card => card.classList.add('show'));
+                promoCards.forEach(card => card.classList.add('show'));
+            }
+        });
     </script>
 </body>
 </html>
